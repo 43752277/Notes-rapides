@@ -26,8 +26,7 @@
     /* -------------------------
 cd "C:\Users\psicye742\OneDrive - Geska Assurances & Conseils Inc\Code\secure-signing"
 & "C:\Users\psicye742\OneDrive - Geska Assurances & Conseils Inc\Bureau\node-portable\node-v24.15.0-win-x64\node.exe" sign.js
-git add .
-git add .gitignore
+git add script.js script.sig .gitignore
 git commit -m "update script"
 git push
 ------------------------- */
