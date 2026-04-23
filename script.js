@@ -33,7 +33,7 @@ git push
 ------------------------- */
 
     const notesData = {
-        "Annulation": {
+        "AnnulationP": {
             template: `{{Type de communication}} {{Nom du client}}
 Annulation d'un contrat
 Type d'annulation : {{Type d'annulation}}
