@@ -30,7 +30,7 @@ DONNÉES DES NOTES
     const notesData = {
         "Annulation": {
             template: `{{Type de communication}} {{Nom du client}}
-Annulation d'un contrat automobile
+Annulation d'un contrat
 Type d'annulation : {{Type d'annulation}}
 Annulation en date du {{Date d'annulation}}
 Raison de l'annulation : {{Raison de l'annulation}}
