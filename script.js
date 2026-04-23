@@ -24,13 +24,17 @@
     document.body.appendChild(menu);
 
     /* -------------------------
-DONNÉES DES NOTES
+cd "C:\Users\psicye742\OneDrive - Geska Assurances & Conseils Inc\Code\secure-signing"
+& "C:\Users\psicye742\OneDrive - Geska Assurances & Conseils Inc\Bureau\node-portable\node-v24.15.0-win-x64\node.exe" sign.js
+git add
+git commit -m "update script"
+git push
 ------------------------- */
 
     const notesData = {
-        "Annulation": {
+        "AnnulationP": {
             template: `{{Type de communication}} {{Nom du client}}
-Annulation d'un contrat automobile
+Annulation d'un contrat
 Type d'annulation : {{Type d'annulation}}
 Annulation en date du {{Date d'annulation}}
 Raison de l'annulation : {{Raison de l'annulation}}
