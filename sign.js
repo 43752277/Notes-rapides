@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
-const privateKeyPath = path.join(__dirname, "keys", "private.pem");
+const privateKeyPath = path.join(__dirname, "private.pem");
 const scriptPath = path.join(__dirname, "script.js");
 const outputSigPath = path.join(__dirname, "script.sig");
 
