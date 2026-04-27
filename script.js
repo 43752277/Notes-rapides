@@ -23,6 +23,10 @@
     menu.style.zIndex = "99999";
     document.body.appendChild(menu);
 
+    /* -------------------------
+DONNÉES DES NOTES
+------------------------- */
+
     const notesData = {
         "Annulation": {
             template: `{{Type de communication}} {{Nom du client}}
@@ -1123,282 +1127,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
 
                 ]
-            },
-            "Ajout Propriétaire occupant": {
-                template: `{{Type de communication}} {{Nom du client}}
-Ajout d'assuré(s) en date du {{Date effective de la transaction}}
-
-Assuré(s) ajouté(s) sur la police :
-
-{{RISQUES}}
-Transaction {{État}} chez {{Assureur}} {{Méthode}}
-{{Surprime/Crédit}} : {{Différence}}$
-Honoraires : {{Honoraires}}$
-Information complémentaire : {{Information complémentaire}}
-Le client a été avisé de la différence de prime : {{Confirmation au client}}
-`,
-                fields: [
-                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
-                    { label: "Nom du client", type: "text" },
-                    { label: "Date effective de la transaction", type: "date" },
-
-                    {
-                        label: "Conducteur(s)/Assuré(s)",
-                        type: "risques",
-                        showAddButton: true,
-                        addButtonText: "Ajouter assuré",
-                        placeholder: "Nom complet de l'assuré",
-
-                        extraFields: [
-                            { label: "", type: "date" },
-                            { label: "", type: "text" },
-                            { label: "", type: "checkbox"},
-                            { label: "", type: "checkbox", hasDetails: true},
-                            { label: "", type: "textarea" },
-                        ],
-                    },
-                    { label: "État", type: "select", options:["émise", "en suspend"] },
-                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
-                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
-
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
-                    { label: "Différence", type: "text" },
-                    { label: "Honoraires", type: "text" },
-
-                    { label: "Information complémentaire", type: "textarea" },
-
-                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-
-                ]
-            },
-            "Ajout Locataire occupant": {
-                template: `{{Type de communication}} {{Nom du client}}
-Ajout d'assuré(s) en date du {{Date effective de la transaction}}
-
-Assuré(s) ajouté(s) sur la police :
-
-{{RISQUES}}
-Transaction {{État}} chez {{Assureur}} {{Méthode}}
-{{Surprime/Crédit}} : {{Différence}}$
-Honoraires : {{Honoraires}}$
-Information complémentaire : {{Information complémentaire}}
-Le client a été avisé de la différence de prime : {{Confirmation au client}}
-`,
-                fields: [
-                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
-                    { label: "Nom du client", type: "text" },
-                    { label: "Date effective de la transaction", type: "date" },
-
-                    {
-                        label: "Conducteur(s)/Assuré(s)",
-                        type: "risques",
-                        showAddButton: true,
-                        addButtonText: "Ajouter assuré",
-                        placeholder: "Nom complet de l'assuré",
-
-                        extraFields: [
-                            { label: "", type: "date" },
-                            { label: "", type: "text" },
-                            { label: "", type: "checkbox"},
-                            { label: "", type: "checkbox", hasDetails: true},
-                            { label: "", type: "textarea" },
-                        ],
-                    },
-                    { label: "État", type: "select", options:["émise", "en suspend"] },
-                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
-                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
-
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
-                    { label: "Différence", type: "text" },
-                    { label: "Honoraires", type: "text" },
-
-                    { label: "Information complémentaire", type: "textarea" },
-
-                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-
-                ]
-            },
-            "Ajout Copropriétaire occupant": {
-                template: `{{Type de communication}} {{Nom du client}}
-Ajout d'assuré(s) en date du {{Date effective de la transaction}}
-
-Assuré(s) ajouté(s) sur la police :
-
-{{RISQUES}}
-Transaction {{État}} chez {{Assureur}} {{Méthode}}
-{{Surprime/Crédit}} : {{Différence}}$
-Honoraires : {{Honoraires}}$
-Information complémentaire : {{Information complémentaire}}
-Le client a été avisé de la différence de prime : {{Confirmation au client}}
-`,
-                fields: [
-                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
-                    { label: "Nom du client", type: "text" },
-                    { label: "Date effective de la transaction", type: "date" },
-
-                    {
-                        label: "Conducteur(s)/Assuré(s)",
-                        type: "risques",
-                        showAddButton: true,
-                        addButtonText: "Ajouter assuré",
-                        placeholder: "Nom complet de l'assuré",
-
-                        extraFields: [
-                            { label: "", type: "date" },
-                            { label: "", type: "text" },
-                            { label: "", type: "checkbox"},
-                            { label: "", type: "checkbox", hasDetails: true},
-                            { label: "", type: "textarea" },
-                        ],
-                    },
-                    { label: "État", type: "select", options:["émise", "en suspend"] },
-                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
-                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
-
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
-                    { label: "Différence", type: "text" },
-                    { label: "Honoraires", type: "text" },
-
-                    { label: "Information complémentaire", type: "textarea" },
-
-                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-
-                ]
-            },
-            "Ajout Copropriétaire loué": {
-                template: `{{Type de communication}} {{Nom du client}}
-Ajout d'assuré(s) en date du {{Date effective de la transaction}}
-
-Assuré(s) ajouté(s) sur la police :
-
-{{RISQUES}}
-Transaction {{État}} chez {{Assureur}} {{Méthode}}
-{{Surprime/Crédit}} : {{Différence}}$
-Honoraires : {{Honoraires}}$
-Information complémentaire : {{Information complémentaire}}
-Le client a été avisé de la différence de prime : {{Confirmation au client}}
-`,
-                fields: [
-                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
-                    { label: "Nom du client", type: "text" },
-                    { label: "Date effective de la transaction", type: "date" },
-
-                    {
-                        label: "Conducteur(s)/Assuré(s)",
-                        type: "risques",
-                        showAddButton: true,
-                        addButtonText: "Ajouter assuré",
-                        placeholder: "Nom complet de l'assuré",
-
-                        extraFields: [
-                            { label: "", type: "date" },
-                            { label: "", type: "text" },
-                            { label: "", type: "checkbox"},
-                            { label: "", type: "checkbox", hasDetails: true},
-                            { label: "", type: "textarea" },
-                        ],
-                    },
-                    { label: "État", type: "select", options:["émise", "en suspend"] },
-                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
-                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
-
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
-                    { label: "Différence", type: "text" },
-                    { label: "Honoraires", type: "text" },
-
-                    { label: "Information complémentaire", type: "textarea" },
-
-                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-
-                ]
-            },
-            "Ajout Propriétaire loué": {
-                template: `{{Type de communication}} {{Nom du client}}
-Ajout d'assuré(s) en date du {{Date effective de la transaction}}
-
-Assuré(s) ajouté(s) sur la police :
-
-{{RISQUES}}
-Transaction {{État}} chez {{Assureur}} {{Méthode}}
-{{Surprime/Crédit}} : {{Différence}}$
-Honoraires : {{Honoraires}}$
-Information complémentaire : {{Information complémentaire}}
-Le client a été avisé de la différence de prime : {{Confirmation au client}}
-`,
-                fields: [
-                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
-                    { label: "Nom du client", type: "text" },
-                    { label: "Date effective de la transaction", type: "date" },
-
-                    {
-                        label: "Conducteur(s)/Assuré(s)",
-                        type: "risques",
-                        showAddButton: true,
-                        addButtonText: "Ajouter assuré",
-                        placeholder: "Nom complet de l'assuré",
-
-                        extraFields: [
-                            { label: "", type: "date" },
-                            { label: "", type: "text" },
-                            { label: "", type: "checkbox"},
-                            { label: "", type: "checkbox", hasDetails: true},
-                            { label: "", type: "textarea" },
-                        ],
-                    },
-                    { label: "État", type: "select", options:["émise", "en suspend"] },
-                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
-                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
-
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
-                    { label: "Différence", type: "text" },
-                    { label: "Honoraires", type: "text" },
-
-                    { label: "Information complémentaire", type: "textarea" },
-
-                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-
-                ]
-            },
-            "Autre demande": {
-                template: `{{Type de communication}} {{Nom du client}}
-Modification à émettre/émise en date du {{Date effective de la transaction}}
-
-{{RISQUES}}
-Méthode de confirmation reçu : {{Méthode de confirmation reçu}}
-Transaction {{État}} chez {{Assureur}} {{Méthode}}
-{{Surprime/Crédit}} : {{Différence}}$
-Honoraires : {{Honoraires}}$
-Information complémentaire : {{Information complémentaire}}
-Le client a été avisé de la différence de prime : {{Confirmation au client}}
-`,
-                fields: [
-                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
-                    { label: "Nom du client", type: "text" },
-                    { label: "Date effective de la transaction", type: "date" },
-                    {
-                        type: "risques",
-                        placeholder: "Ce qui va changer",
-                        showRemoveButton: false,
-
-                        extraFields: [
-                            { label: "Information complémentaire", type: "textarea" },
-                        ],
-
-                    },
-                    { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
-                    { label: "État", type: "select", options:["émise", "en suspend"] },
-                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
-                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
-
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
-                    { label: "Différence", type: "text" },
-                    { label: "Honoraires", type: "text" },
-
-                    { label: "Information complémentaire", type: "textarea" },
-
-                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-                ]
-            },
+            }
         },
         "Mise à jour": {
             "Mise à jour - Automobile": {
@@ -1737,7 +1466,7 @@ Information complémentaire : {{Information complémentaire}}
                     { label: "Information complémentaire", type: "textarea" }
                 ]
             },
-        },
+        }
     };
 
     /* -------------------------
@@ -2001,27 +1730,90 @@ FENÊTRE NOTE
         const content = win.querySelector(".content");
 
         const left = document.createElement("div");
-        left.style.width = "50%";
         left.style.padding = "20px";
         left.style.borderRight = "1px solid #eee";
         left.style.overflowY = "auto";
         left.style.display = "flex";
         left.style.flexDirection = "column";
+        left.style.flex = "1 1 50%";
         left.style.gap = "16px";
         left.style.background = "#f7f9fc";
 
         content.appendChild(left);
 
+        const rightContainer = document.createElement("div");
+        rightContainer.style.position = "relative";
+        rightContainer.style.display = "flex";
+        rightContainer.style.flexDirection = "column";
+        rightContainer.style.flex = "1 1 50%";
+
         const right = document.createElement("textarea");
-        right.style.width = "50%";
+        right.style.flex = "1";
         right.style.padding = "15px";
         right.style.border = "none";
         right.style.resize = "none";
         right.style.overflowY = "auto";
         right.style.lineHeight = "1.5";
-        right.style.borderLeft = "1px solid #eee";
 
-        content.appendChild(right);
+        rightContainer.appendChild(right);
+        content.appendChild(rightContainer);
+
+        left.style.position = "relative";
+        right.style.position = "relative";
+        left.style.minWidth = "0";
+        rightContainer.style.minWidth = "0";
+
+        let isPreviewVisible = true;
+
+        const toggleBtn = document.createElement("span");
+        toggleBtn.style.background = "rgba(255,255,255,0.15)";
+        toggleBtn.style.border = "none";
+        toggleBtn.style.color = "white";
+        toggleBtn.style.width = "28px";
+        toggleBtn.style.height = "28px";
+        toggleBtn.style.borderRadius = "6px";
+        toggleBtn.style.cursor = "pointer";
+        toggleBtn.style.fontSize = "16px";
+        toggleBtn.style.display = "flex";
+        toggleBtn.style.alignItems = "center";
+        toggleBtn.style.justifyContent = "center";
+        toggleBtn.textContent = "⮜";
+
+        toggleBtn.onclick = function(){
+            isPreviewVisible = !isPreviewVisible;
+            if(isPreviewVisible){
+                win.style.width = "1000px";
+                rightContainer.style.display = "flex";
+                left.style.flex = "1 1 50%";
+                rightContainer.style.flex = "1 1 50%";
+                toggleBtn.textContent = "⮜";
+                rightContainer.appendChild(copyBtn);
+            } else {
+                const leftWidth = left.offsetWidth;
+
+                rightContainer.style.display = "none";
+                left.style.flex = "1 1 100%";
+                toggleBtn.textContent = "⮞";
+
+                content.appendChild(copyBtn);
+
+                const currentLeft = win.offsetLeft;
+
+                win.style.width = leftWidth + "px";
+
+                const maxLeft = window.innerWidth - leftWidth;
+                const minLeft = 0;
+
+                const newLeft = Math.max(minLeft, Math.min(currentLeft, maxLeft));
+
+                win.style.left = newLeft + "px";
+            }
+        };
+
+        win.appendChild(toggleBtn);
+
+        const btnContainer = win.querySelector(".header div");
+        btnContainer.prepend(toggleBtn);
 
         const inputs = {};
         let risquesList;
@@ -2451,18 +2243,44 @@ FENÊTRE NOTE
 
                             let val = "";
 
-                            if(checkbox){
+                            // 🔥 MULTISELECT (plusieurs checkbox)
+                            const allCheckboxes = fContainer.querySelectorAll("input[type=checkbox]");
+
+                            if (allCheckboxes.length > 1) {
+
+                                let selected = [];
+
+                                allCheckboxes.forEach(function(cb){
+                                    if (cb.checked) {
+                                        selected.push(cb.value);
+                                    }
+                                });
+
+                                val = selected.length > 0 ? selected.join(", ") : "";
+
+                            }
+
+                            // 🔹 Checkbox simple
+                            else if (allCheckboxes.length === 1) {
+
+                                const checkbox = allCheckboxes[0];
                                 val = checkbox.checked ? "Oui" : "Non";
 
-                                if(checkbox.checked){
+                                if (checkbox.checked) {
                                     const textarea = fContainer.querySelector(".conditionalTextarea");
-                                    if(textarea && textarea.value){
+                                    if (textarea && textarea.value) {
                                         val += " - " + textarea.value;
                                     }
                                 }
+
                             }
-                            else if(input){
-                                val = input.value || "";
+
+                            // 🔹 Autres inputs
+                            else {
+                                const input = fContainer.querySelector("input[type=text], input[type=date], textarea:not(.conditionalTextarea), select");
+                                if (input) {
+                                    val = input.value || "";
+                                }
                             }
 
                             risquesText += label + " : " + val + "\n";
@@ -2484,7 +2302,8 @@ FENÊTRE NOTE
         copyBtn.textContent = "Copier";
         copyBtn.style.position = "absolute";
         copyBtn.style.bottom = "10px";
-        copyBtn.style.right = "10px";
+        copyBtn.style.right = "20px";
+        copyBtn.style.zIndex = "1000";
 
         copyBtn.style.background = "#2c6bed";
         copyBtn.style.color = "white";
@@ -2494,10 +2313,18 @@ FENÊTRE NOTE
         copyBtn.style.cursor = "pointer";
         copyBtn.style.boxShadow = "0 4px 10px rgba(0,0,0,0.15)";
         copyBtn.onclick = function() {
-            right.select();
+            const temp = document.createElement("textarea");
+            temp.value = right.value;
+            document.body.appendChild(temp);
+            temp.select();
             document.execCommand("copy");
+            temp.remove();
         };
-        win.appendChild(copyBtn);
+        rightContainer.appendChild(copyBtn);
+        copyBtn.style.position = "absolute";
+        copyBtn.style.bottom = "10px";
+        copyBtn.style.right = "20px";
+        copyBtn.style.zIndex = "1000";
     }
 
     createMenu(menu,notesData);
