@@ -2344,16 +2344,22 @@ FENÊTRE NOTE
         copyBtn.style.zIndex = "1000";
     }
 
-    createMenu(menu,notesData);
-    if (mainBtn) {
-    mainBtn.onclick = function (e) {
+    createMenu(menu, notesData);
+
+if (mainBtn) {
+    mainBtn.onclick = function(e){
         e.stopPropagation();
         menu.style.display = menu.style.display === "none" ? "block" : "none";
     };
 }
-    document.addEventListener("click",function(){
-        menu.style.display="none";
-    });
+
+menu.addEventListener("click", function(e){
+    e.stopPropagation();
+});
+
+document.addEventListener("click", function(){
+    menu.style.display = "none";
+});
 }
 
 if (document.readyState === "loading") {
