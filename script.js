@@ -1,7 +1,7 @@
 (function(){
 
-    let zIndexCounter = 10000;
-
+    function init() {
+        
     let zIndexCounter = 10000;
 
 const menu = document.createElement("div");
@@ -16,6 +16,7 @@ menu.style.display = "none";
 menu.style.zIndex = "99999";
 document.body.appendChild(menu);
 
+let mainBtn;
 const isElectron = navigator.userAgent.includes('Electron');
 
 if (!isElectron) {
@@ -2344,7 +2345,21 @@ FENÊTRE NOTE
     }
 
     createMenu(menu,notesData);
-    mainBtn.onclick=function(e){ e.stopPropagation(); menu.style.display=menu.style.display==="none"?"block":"none"; };
-    document.addEventListener("click",function(){ menu.style.display="none"; });
+    if (mainBtn) {
+    mainBtn.onclick = function (e) {
+        e.stopPropagation();
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    };
+}
+    document.addEventListener("click",function(){
+        menu.style.display="none";
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+} else {
+    init();
+}
 
 })();
