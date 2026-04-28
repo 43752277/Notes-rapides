@@ -2,6 +2,23 @@
 
     let zIndexCounter = 10000;
 
+    let zIndexCounter = 10000;
+
+const menu = document.createElement("div");
+menu.style.position = "fixed";
+menu.style.bottom = "60px";
+menu.style.right = "20px";
+menu.style.background = "white";
+menu.style.border = "none";
+menu.style.borderRadius = "4px";
+menu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
+menu.style.display = "none";
+menu.style.zIndex = "99999";
+document.body.appendChild(menu);
+
+const isElectron = navigator.userAgent.includes('Electron');
+
+if (!isElectron) {
     const mainBtn = document.createElement("button");
     mainBtn.textContent = "NOTES RAPIDES";
     mainBtn.style.position = "fixed";
@@ -10,18 +27,17 @@
     mainBtn.style.zIndex = "99999";
     mainBtn.style.background = "#f2f2f2";
     document.body.appendChild(mainBtn);
-
-    const menu = document.createElement("div");
-    menu.style.position = "fixed";
-    menu.style.bottom = "60px";
-    menu.style.right = "20px";
-    menu.style.background = "white";
-    menu.style.border = "none";
-    menu.style.borderRadius = "4px";
-    menu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
-    menu.style.display = "none";
-    menu.style.zIndex = "99999";
-    document.body.appendChild(menu);
+    mainBtn.onclick = function(){
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    };
+} else {
+    menu.style.display = "block";
+    menu.style.bottom = "auto";
+    menu.style.right = "auto";
+    menu.style.top = "50%";
+    menu.style.left = "50%";
+    menu.style.transform = "translate(-50%, -50%)";
+}
 
     /* -------------------------
 DONNÉES DES NOTES
