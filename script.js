@@ -1795,6 +1795,58 @@ FENÊTRE NOTE
     function openNote(data, title) {
         if (!data || !data.fields) return;
 
+        let root;
+        let content;
+if (isElectron) {
+        // =====================
+        // MODE ELECTRON
+        // =====================
+
+        document.body.innerHTML = "";
+
+        root = document.createElement("div");
+        root.style.display = "flex";
+        root.style.flexDirection = "column";
+        root.style.height = "100vh";
+        root.style.background = "white";
+
+        document.body.appendChild(root);
+
+        // HEADER
+        const header = document.createElement("div");
+        header.style.background = "#2c6bed";
+        header.style.color = "white";
+        header.style.padding = "12px 16px";
+        header.style.fontWeight = "600";
+        header.style.display = "flex";
+        header.style.alignItems = "center";
+        header.style.gap = "10px";
+
+        // Bouton retour
+        const backBtn = document.createElement("button");
+        backBtn.textContent = "← Retour";
+        backBtn.style.cursor = "pointer";
+
+        backBtn.onclick = function () {
+            location.reload();
+        };
+
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = title;
+
+        header.appendChild(backBtn);
+        header.appendChild(titleSpan);
+        root.appendChild(header);
+
+        // CONTENU
+        content = document.createElement("div");
+        content.style.display = "flex";
+        content.style.flex = "1";
+        content.style.overflow = "hidden";
+
+        root.appendChild(content);
+
+    } else {
         const win = createWindow(title);
         const content = win.querySelector(".content");
 
@@ -1878,7 +1930,7 @@ FENÊTRE NOTE
                 win.style.left = newLeft + "px";
             }
         };
-
+}
         win.appendChild(toggleBtn);
 
         const btnContainer = win.querySelector(".header div");
