@@ -1543,7 +1543,10 @@ CRÉATION DU MENU
             subMenu.style.position = "absolute";
             subMenu.style.top = "0";
             subMenu.style.width = "280px";
-            subMenu.style.background = "white";
+            subMenu.style.background = "#ffffff";
+            subMenu.style.backgroundColor = "#ffffff";
+            subMenu.style.opacity = "1";
+            subMenu.style.zIndex = "999999";
             subMenu.style.display = "none";
             subMenu.style.border = "none";
             subMenu.style.borderRadius = "4px";
@@ -1558,7 +1561,11 @@ CRÉATION DU MENU
                 subMenu.style.right = "100%";  // vers la gauche en Chrome
                 subMenu.style.bottom = "0";
             }
+            const bottomOverflow = rect.bottom + 300 - window.innerHeight;
 
+                if (bottomOverflow > 0) {
+                    subMenu.style.top = -bottomOverflow + "px";
+                }
             item.style.position = "relative"; // 🔥 nécessaire pour l'absolute child
             item.appendChild(subMenu);
 
@@ -2454,7 +2461,17 @@ if (isElectron) {
     }
 
     createMenu(menu,notesData);
-    mainBtn.onclick=function(e){ e.stopPropagation(); menu.style.display=menu.style.display==="none"?"block":"none"; };
-    document.addEventListener("click",function(){ menu.style.display="none"; });
+    mainBtn.addEventListener("click", function(e){
+        e.stopPropagation();
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    });
+
+    menu.addEventListener("click", function(e){
+        e.stopPropagation();
+    });
+
+    document.addEventListener("click", function(){
+        menu.style.display = "none";
+    });
 
 })();
