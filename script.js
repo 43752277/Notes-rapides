@@ -1848,7 +1848,6 @@ if (isElectron) {
 
     } else {
         const win = createWindow(title);
-        const content = win.querySelector(".content");
 
         const left = document.createElement("div");
         left.style.padding = "20px";
@@ -2446,6 +2445,12 @@ if (isElectron) {
         copyBtn.style.bottom = "10px";
         copyBtn.style.right = "20px";
         copyBtn.style.zIndex = "1000";
+    if (isElectron && window.electronAPI) {
+        setTimeout(function () {
+            window.electronAPI.setSize(1000, 800);
+        }, 50);
+    }
+
     }
 
     createMenu(menu,notesData);
