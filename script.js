@@ -14,9 +14,6 @@ menu.style.display = "none";
 menu.style.zIndex = "99999";
 document.body.appendChild(menu);
 
-const isElectron = navigator.userAgent.includes('Electron');
-
-if (!isElectron) {
     const mainBtn = document.createElement("button");
     mainBtn.textContent = "NOTES RAPIDES";
     mainBtn.style.position = "fixed";
@@ -28,14 +25,6 @@ if (!isElectron) {
     mainBtn.onclick = function(){
         menu.style.display = menu.style.display === "none" ? "block" : "none";
     };
-} else {
-    menu.style.display = "block";
-    menu.style.bottom = "auto";
-    menu.style.right = "auto";
-    menu.style.top = "50%";
-    menu.style.left = "50%";
-    menu.style.transform = "translate(-50%, -50%)";
-}
 
     /* -------------------------
 DONNÉES DES NOTES
@@ -1550,9 +1539,7 @@ FENÊTRE NOTE
     function createWindow(title){
         const win = document.createElement("div");
         win.style.position = "fixed";
-        if (!isElectron) {
-            win.style.width = "1000px";
-        }
+        win.style.width = "1000px";
         win.style.height = "800px";
         win.style.minWidth = "400px";
         win.style.minHeight = "300px";
@@ -1726,10 +1713,8 @@ FENÊTRE NOTE
                 newTop = Math.max(minTop, Math.min(newTop, maxTop));
                 newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
 
-                if (!isElectron) {
-                    win.style.left = newLeft + "px";
-                    win.style.top = newTop + "px";
-                }
+                win.style.left = newLeft + "px";
+                win.style.top = newTop + "px";
             }
         });
 
@@ -1744,44 +1729,8 @@ FENÊTRE NOTE
     function openNote(data, title) {
         if (!data || !data.fields) return;
 
-        let win;
-let content;
-
-if (isElectron) {
-    // 🔥 MODE ELECTRON (plein écran)
-    document.body.innerHTML = "";
-
-    win = document.createElement("div");
-    win.style.display = "flex";
-    win.style.flexDirection = "column";
-    win.style.height = "100vh";
-    win.style.width = "100vw";
-    win.style.background = "white";
-
-    document.body.appendChild(win);
-
-    const header = document.createElement("div");
-    header.style.background = "#2c6bed";
-    header.style.color = "white";
-    header.style.padding = "12px 16px";
-    header.style.fontWeight = "600";
-    header.style.display = "flex";
-    header.style.alignItems = "center";
-    header.textContent = title;
-
-    win.appendChild(header);
-
-    content = document.createElement("div");
-    content.style.display = "flex";
-    content.style.flex = "1";
-    content.style.overflow = "hidden";
-
-    win.appendChild(content);
-
-} else {
-
-        win = createWindow(title);
-        content = win.querySelector(".content");
+        const win = createWindow(title);
+        const content = win.querySelector(".content");
 
         const left = document.createElement("div");
         left.style.padding = "20px";
@@ -1853,9 +1802,7 @@ if (isElectron) {
 
                 const currentLeft = win.offsetLeft;
 
-                if (!isElectron) {
-                    win.style.width = leftWidth + "px";
-                }
+                win.style.width = leftWidth + "px";
 
                 const maxLeft = window.innerWidth - leftWidth;
                 const minLeft = 0;
@@ -2381,13 +2328,7 @@ if (isElectron) {
             }
         };
         rightContainer.appendChild(copyBtn);
-
-        if (isElectron && window.electronAPI) {
-            setTimeout(function () {
-                window.electronAPI.setSize(1200, 800);
-            }, 50);
-        }
-    }}
+    }
 
     createMenu(menu,notesData);
     mainBtn.onclick=function(e){ e.stopPropagation(); menu.style.display=menu.style.display==="none"?"block":"none"; };
