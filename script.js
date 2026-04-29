@@ -25,16 +25,57 @@ if (!isElectron) {
     mainBtn.style.zIndex = "99999";
     mainBtn.style.background = "#f2f2f2";
     document.body.appendChild(mainBtn);
-    mainBtn.onclick = function(){
+    mainBtn.onclick = function () {
         menu.style.display = menu.style.display === "none" ? "block" : "none";
     };
 } else {
+    // 🔥 Menu ancré en haut à gauche — les sous-menus s'ouvrent vers la droite
     menu.style.display = "block";
-    menu.style.bottom = "auto";
+    menu.style.position = "fixed";
+    menu.style.top = "0";
+    menu.style.left = "0";
     menu.style.right = "auto";
-    menu.style.top = "50%";
-    menu.style.left = "50%";
-    menu.style.transform = "translate(-50%, -50%)";
+    menu.style.bottom = "auto";
+    menu.style.transform = "none";
+
+    // 🔥 Redimensionne la fenêtre Electron selon le contenu visible
+    function resizeElectronWindow() {
+        if (!window.electronAPI) return;
+
+        // Calcule le bounding box de tous les éléments visibles
+        let maxRight = 0;
+        let maxBottom = 0;
+
+        function measureVisible(el) {
+            if (!el || el.style.display === 'none') return;
+            const r = el.getBoundingClientRect();
+            if (r.width > 0 && r.height > 0) {
+                maxRight = Math.max(maxRight, r.right);
+                maxBottom = Math.max(maxBottom, r.bottom);
+            }
+            Array.from(el.children).forEach(measureVisible);
+        }
+
+        measureVisible(menu);
+
+        window.electronAPI.setSize(
+            Math.ceil(maxRight) + 2,   // +2 pour l'ombre/bordure
+            Math.ceil(maxBottom) + 2
+        );
+    }
+
+    // 🔥 Observer les changements de display sur tous les sous-menus
+    const observer = new MutationObserver(function () {
+        setTimeout(resizeElectronWindow, 15);
+    });
+
+    observer.observe(menu, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ['style']
+    });
+
+    setTimeout(resizeElectronWindow, 50);
 }
 
     /* -------------------------
@@ -1487,39 +1528,53 @@ Information complémentaire : {{Information complémentaire}}
 CRÉATION DU MENU
 ------------------------- */
 
-    function createMenu(container,data){
-        Object.keys(data).forEach(function(key){
-            const item=document.createElement("div");
-            item.textContent=key;
-            item.style.padding="10px 16px";
-            item.style.cursor="pointer";
-            item.addEventListener("mouseenter",function(e){ e.currentTarget.style.background="#eee"; });
-            item.addEventListener("mouseleave",function(e){ e.currentTarget.style.background="white"; });
-            container.appendChild(item);
+    function createMenu(container, data) {
+    Object.keys(data).forEach(function (key) {
+        const item = document.createElement("div");
+        item.textContent = key;
+        item.style.padding = "10px 16px";
+        item.style.cursor = "pointer";
+        item.addEventListener("mouseenter", function (e) { e.currentTarget.style.background = "#eee"; });
+        item.addEventListener("mouseleave", function (e) { e.currentTarget.style.background = "white"; });
+        container.appendChild(item);
 
-            if(typeof data[key]==="object" && !data[key].fields){
-                const subMenu=document.createElement("div");
-                subMenu.style.position="absolute";
-                subMenu.style.right="100%";
-                subMenu.style.bottom="0";
-                subMenu.style.width="280px";
-                subMenu.style.background="white";
-                subMenu.style.display="none";
-                subMenu.style.border = "none";
-                subMenu.style.borderRadius = "4px";
-                subMenu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
-                subMenu.style.padding = "6px 0";
-                item.appendChild(subMenu);
-                item.addEventListener("click",function(e){
-                    e.stopPropagation();
-                    if(subMenu.children.length===0){ createMenu(subMenu,data[key]); }
-                    subMenu.style.display = subMenu.style.display==="none"?"block":"none";
-                });
+        if (typeof data[key] === "object" && !data[key].fields) {
+            const subMenu = document.createElement("div");
+            subMenu.style.position = "absolute";
+            subMenu.style.top = "0";
+            subMenu.style.width = "280px";
+            subMenu.style.background = "white";
+            subMenu.style.display = "none";
+            subMenu.style.border = "none";
+            subMenu.style.borderRadius = "4px";
+            subMenu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
+            subMenu.style.padding = "6px 0";
+
+            // 🔥 Direction selon l'environnement
+            if (isElectron) {
+                subMenu.style.left = "100%";   // vers la droite en Electron
+                subMenu.style.right = "auto";
             } else {
-                item.addEventListener("click",function(){ menu.style.display="none"; openNote(data[key],key); });
+                subMenu.style.right = "100%";  // vers la gauche en Chrome
+                subMenu.style.bottom = "0";
             }
-        });
-    }
+
+            item.style.position = "relative"; // 🔥 nécessaire pour l'absolute child
+            item.appendChild(subMenu);
+
+            item.addEventListener("click", function (e) {
+                e.stopPropagation();
+                if (subMenu.children.length === 0) { createMenu(subMenu, data[key]); }
+                subMenu.style.display = subMenu.style.display === "none" ? "block" : "none";
+            });
+        } else {
+            item.addEventListener("click", function () {
+                menu.style.display = "none";
+                openNote(data[key], key);
+            });
+        }
+    });
+}
 
     function styleInput(input){
         input.style.padding = "10px 12px";
