@@ -1550,7 +1550,9 @@ FENÊTRE NOTE
     function createWindow(title){
         const win = document.createElement("div");
         win.style.position = "fixed";
-        win.style.width = "1000px";
+        if (!isElectron) {
+            win.style.width = "1000px";
+        }
         win.style.height = "800px";
         win.style.minWidth = "400px";
         win.style.minHeight = "300px";
@@ -1724,8 +1726,10 @@ FENÊTRE NOTE
                 newTop = Math.max(minTop, Math.min(newTop, maxTop));
                 newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
 
-                win.style.left = newLeft + "px";
-                win.style.top = newTop + "px";
+                if (!isElectron) {
+                    win.style.left = newLeft + "px";
+                    win.style.top = newTop + "px";
+                }
             }
         });
 
@@ -1740,8 +1744,44 @@ FENÊTRE NOTE
     function openNote(data, title) {
         if (!data || !data.fields) return;
 
-        const win = createWindow(title);
-        const content = win.querySelector(".content");
+        let win;
+let content;
+
+if (isElectron) {
+    // 🔥 MODE ELECTRON (plein écran)
+    document.body.innerHTML = "";
+
+    win = document.createElement("div");
+    win.style.display = "flex";
+    win.style.flexDirection = "column";
+    win.style.height = "100vh";
+    win.style.width = "100vw";
+    win.style.background = "white";
+
+    document.body.appendChild(win);
+
+    const header = document.createElement("div");
+    header.style.background = "#2c6bed";
+    header.style.color = "white";
+    header.style.padding = "12px 16px";
+    header.style.fontWeight = "600";
+    header.style.display = "flex";
+    header.style.alignItems = "center";
+    header.textContent = title;
+
+    win.appendChild(header);
+
+    content = document.createElement("div");
+    content.style.display = "flex";
+    content.style.flex = "1";
+    content.style.overflow = "hidden";
+
+    win.appendChild(content);
+
+} else {
+
+        win = createWindow(title);
+        content = win.querySelector(".content");
 
         const left = document.createElement("div");
         left.style.padding = "20px";
@@ -1813,7 +1853,9 @@ FENÊTRE NOTE
 
                 const currentLeft = win.offsetLeft;
 
-                win.style.width = leftWidth + "px";
+                if (!isElectron) {
+                    win.style.width = leftWidth + "px";
+                }
 
                 const maxLeft = window.innerWidth - leftWidth;
                 const minLeft = 0;
@@ -2326,20 +2368,26 @@ FENÊTRE NOTE
         copyBtn.style.borderRadius = "4px";
         copyBtn.style.cursor = "pointer";
         copyBtn.style.boxShadow = "0 4px 10px rgba(0,0,0,0.15)";
-        copyBtn.onclick = function() {
-            const temp = document.createElement("textarea");
-            temp.value = right.value;
-            document.body.appendChild(temp);
-            temp.select();
-            document.execCommand("copy");
-            temp.remove();
+        copyBtn.onclick = function () {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(right.value);
+            } else {
+                const temp = document.createElement("textarea");
+                temp.value = right.value;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand("copy");
+                temp.remove();
+            }
         };
         rightContainer.appendChild(copyBtn);
-        copyBtn.style.position = "absolute";
-        copyBtn.style.bottom = "10px";
-        copyBtn.style.right = "20px";
-        copyBtn.style.zIndex = "1000";
-    }
+
+        if (isElectron && window.electronAPI) {
+            setTimeout(function () {
+                window.electronAPI.setSize(1200, 800);
+            }, 50);
+        }
+    }}
 
     createMenu(menu,notesData);
     mainBtn.onclick=function(e){ e.stopPropagation(); menu.style.display=menu.style.display==="none"?"block":"none"; };
