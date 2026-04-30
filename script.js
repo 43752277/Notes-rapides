@@ -1030,7 +1030,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
 
                 ]
             },
-            "Autre demande": {
+            "Autre demande - Automobile": {
                 template: `{{Type de communication}} {{Nom du client}}
 Modification à émettre/émise en date du {{Date effective de la transaction}}
 
@@ -1130,7 +1130,47 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
 
                 ]
-            }
+            },
+            "Autre demande - Habitation": {
+                template: `{{Type de communication}} {{Nom du client}}
+Modification à émettre/émise en date du {{Date effective de la transaction}}
+
+{{RISQUES}}
+Méthode de confirmation reçu : {{Méthode de confirmation reçu}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+                    {
+                        type: "risques",
+                        placeholder: "Ce qui va changer",
+                        showRemoveButton: false,
+
+                        extraFields: [
+                            { label: "Information complémentaire", type: "textarea" },
+                        ],
+
+                    },
+                    { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+                ]
+            },
         },
         "Mise à jour": {
             "Mise à jour - Automobile": {
