@@ -790,7 +790,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -859,7 +859,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -905,7 +905,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -974,7 +974,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -1020,7 +1020,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -1061,7 +1061,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -1121,7 +1121,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -1162,7 +1162,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
 
-                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit"] },
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
                     { label: "Différence", type: "text" },
                     { label: "Honoraires", type: "text" },
 
@@ -1186,6 +1186,7 @@ Un des conducteurs sur la police a-t-il eu des infractions au Code de la route a
 Un des conducteurs sur la police a-t-il eu des accidents non déclarés dans les 6 dernières années? {{Un des conducteurs sur la police a-t-il eu des accidents non déclarés dans les 6 dernières années?}}
 Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive? {{Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?}}
 Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire? {{Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire?}}
+Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées? {{Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?}}
 Information complémentaire : {{Information complémentaire}}
 `,
                 fields: [
@@ -1232,6 +1233,7 @@ Information complémentaire : {{Information complémentaire}}
                     { label: "Un des conducteurs sur la police a-t-il eu des accidents non déclarés dans les 6 dernières années?", type: "checkbox"},
                     { label: "Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?", type: "checkbox"},
                     { label: "Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire?", type: "checkbox"},
+                    { label: "Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?", type: "checkbox"},
                     { label: "Information complémentaire", type: "textarea" },
                 ]
             },
@@ -1244,6 +1246,7 @@ Risques sur la police :
 {{RISQUES}}
 Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive? {{Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?}}
 Est-ce qu'un conducteur ou une personne occupant sous votre toit avez un dossier judiciaire? {{Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?}}
+Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées? {{Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?}}
 Information complémentaire : {{Information complémentaire}}
 `,
                 fields: [
@@ -1294,6 +1297,7 @@ Information complémentaire : {{Information complémentaire}}
                     },
                     { label: "Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?", type: "checkbox", hasDetails: true},
                     { label: "Est-ce qu'une personne occupant sous votre toit a un dossier judiciaire?", type: "checkbox", hasDetails: true},
+                    { label: "Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?", type: "checkbox"},
                     { label: "Information complémentaire", type: "textarea" }
                 ]
             },
@@ -1306,6 +1310,7 @@ Risques sur la police :
 {{RISQUES}}
 Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive? {{Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?}}
 Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire? {{Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?}}
+Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées? {{Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?}}
 Information complémentaire : {{Information complémentaire}}
 `,
                 fields: [
@@ -1343,6 +1348,7 @@ Information complémentaire : {{Information complémentaire}}
                     },
                     { label: "Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?", type: "checkbox"},
                     { label: "Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?", type: "checkbox"},
+                    { label: "Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?", type: "checkbox"},
                     { label: "Information complémentaire", type: "textarea" }
                 ]
             },
@@ -1355,14 +1361,12 @@ Risques sur la police :
 {{RISQUES}}
 Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive? {{Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?}}
 Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire? {{Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?}}
+Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées? {{Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?}}
 Information complémentaire : {{Information complémentaire}}
 `,
                 fields: [
                     { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
                     { label: "Nom du client", type: "text" },
-                    { label: "Date de Mise en vigueur", type: "date" },
-                    { label: "Mis en vigueur chez", type: "text" },
-                    { label: "Numéro de police", type: "text" },
                     {
                         label: "Risques",
                         type: "risques",
@@ -1399,6 +1403,7 @@ Information complémentaire : {{Information complémentaire}}
                     },
                     { label: "Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?", type: "checkbox", hasDetails: true},
                     { label: "Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?", type: "checkbox", hasDetails: true},
+                    { label: "Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?", type: "checkbox"},
                     { label: "Information complémentaire", type: "textarea" }
                 ]
             },
@@ -1411,14 +1416,12 @@ Risques sur la police :
 {{RISQUES}}
 Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive? {{Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?}}
 Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire? {{Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?}}
+Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées? {{Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?}}
 Information complémentaire : {{Information complémentaire}}
 `,
                 fields: [
                     { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
                     { label: "Nom du client", type: "text" },
-                    { label: "Date de Mise en vigueur", type: "date" },
-                    { label: "Mis en vigueur chez", type: "text" },
-                    { label: "Numéro de police", type: "text" },
                     {
                         label: "Risques",
                         type: "risques",
@@ -1452,6 +1455,7 @@ Information complémentaire : {{Information complémentaire}}
                     },
                     { label: "Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?", type: "checkbox", hasDetails: true},
                     { label: "Est-ce qu'une personne habitant sous votre toit a un dossier judiciaire?", type: "checkbox", hasDetails: true},
+                    { label: "Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?", type: "checkbox"},
                     { label: "Information complémentaire", type: "textarea" }
                 ]
             },
@@ -1464,6 +1468,7 @@ Risques sur la police :
 {{RISQUES}}
 Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive? {{Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?}}
 Est-ce qu'un conducteur ou une personne habitant sous votre toit avez un dossier judiciaire? {{Est-ce qu'une personne occupant sous votre toit a un dossier judiciaire?}}
+Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées? {{Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?}}
 Information complémentaire : {{Information complémentaire}}
 `,
                 fields: [
@@ -1506,7 +1511,57 @@ Information complémentaire : {{Information complémentaire}}
                     },
                     { label: "Une personne mentionnée sur la police a-t-elle déjà eu une faillite/proposition de consommateur/annulation par un assureur/renouvellement avec des conditions restrictive?", type: "checkbox", hasDetails: true},
                     { label: "Est-ce qu'une personne occupant sous votre toit a un dossier judiciaire?", type: "checkbox", hasDetails: true},
+                    { label: "Afin de permettre aux assureurs d'accorder leur meilleure offre, les autorisez-vous à obtenir vos informations de crédit, de dossier plumitifs ou de réclamations auprès des agences concernées?", type: "checkbox"},
                     { label: "Information complémentaire", type: "textarea" }
+                ]
+            },
+        },
+        "Autres": {
+            "Décès d'un assuré (succession)": {
+                template: `{{Type de communication}} {{Nom du client}}
+
+Décès de l'assuré suivant :
+
+{{RISQUES}}
+Preuve de décès obtenu? {{Preuve de décès obtenu?}}
+Preuve d'éxecuteur testamentaire obtenu? {{Preuve d'exécuteur testamentaire obtenu?}}
+Nouveau spécimen de chèque reçu? {{Nouveau spécimen de chèque reçu?}}
+Méthode de confirmation reçu : {{Méthode de confirmation reçu}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+
+                    {
+                        label: "Assuré/conducteur à retirer",
+                        type: "risques",
+                        placeholder: "Nom du défunt",
+                        showAddButton: false,
+                        showRemoveButton: false,
+                        extraFields : [
+                        { label: "Ajout de la mention succession ou retrait de l'assuré?", type: "text" },
+                        ]
+                    },
+                    { label: "Preuve de décès obtenu?", type: "checkbox", hasDetails: false},
+                    { label: "Preuve d'exécuteur testamentaire obtenu?", type: "checkbox", hasDetails: false},
+                    { label: "Nouveau spécimen de chèque reçu?", type: "checkbox", hasDetails: false},
+                    { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
                 ]
             },
         }
