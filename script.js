@@ -38,7 +38,7 @@ Type d'annulation : {{Type d'annulation}}
 Annulation en date du {{Date d'annulation}}
 Raison de l'annulation : {{Raison de l'annulation}}
 Démarches de sauvetage : {{Démarches de sauvetage}}
-Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)? : {Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)?}}
+Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)? {{Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)?}}
 Sollicitation : {{Sollicitation}}
 Information complémentaire : {{Information complémentaire}}
 Transaction {{État}} chez {{Assureur}} {{Méthode}}
