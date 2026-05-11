@@ -38,7 +38,7 @@ Type d'annulation : {{Type d'annulation}}
 Annulation en date du {{Date d'annulation}}
 Raison de l'annulation : {{Raison de l'annulation}}
 Démarches de sauvetage : {{Démarches de sauvetage}}
-Méthode de confirmation reçu : {{Méthode de confirmation reçu}}
+Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)? : {Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)?}}
 Sollicitation : {{Sollicitation}}
 Information complémentaire : {{Information complémentaire}}
 Transaction {{État}} chez {{Assureur}} {{Méthode}}
@@ -52,10 +52,10 @@ Confirmation au client : {{Confirmation au client}}
                 { label: "Nom du client", type: "text" },
                 { label: "Type d'annulation", type: "select", options: ["Annulation par l'assuré","Annulation par l'assureur","Annulation pour non-paiement","Changement assureur à l'interne"] },
                 { label: "Date d'annulation", type: "date" },
-                { label: "Raison de l'annulation", type: "select", options: ["Assureur - Annulation pour non-paiement","Assureur - Annulation pour aggravation du risque","Assureur - Annulation pour fausse déclaration","Client - Autre courtier est ami/famille","Client - Décédé","Client - Risque vendu","Client - Transfert d'agence","Client - Perdu à autre","Client - Perdu à Aviva","Client - Perdu à Belair","Client - Perdu à Beneva","Client - Perdu à Desjardins/La Personnelle","Client - Perdu à Economical","Client - Perdu à Intact","Client - Perdu à L'Unique","Client - Perdu à Promutuel","Client - Perdu à Intact","Client - Perdu à Wawanesa","Courtier - Transfert d'assureur"] },
+                { label: "Raison de l'annulation", type: "select", options: ["Assureur - Annulation pour non-paiement","Assureur - Annulation pour aggravation du risque","Assureur - Annulation pour fausse déclaration","Client - Autre courtier est ami/famille","Client - Décédé","Client - Risque vendu","Client - Transfert d'agence","Client - Perdu à autre","Courtier - Transfert d'assureur"] },
                 { label: "Démarches de sauvetage", type: "text" },
-                { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
-                { label: "Sollicitation", type: "select", options:["Refusée", "Acceptée", "Ne s'applique pas"] },
+                { label: "Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)?", type: "select", options:["Reçu par courriel", "Reçu par la poste", "En attente", "Ne s'applique pas"] },
+                { label: "Sollicitation", type: "select", options:["Refusée", "Acceptée", "Ne pas solliciter", "Ne s'applique pas"] },
                 { label: "Information complémentaire", type: "textarea" },
                 { label: "État", type: "select", options:["émise", "en suspend"] },
                 { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
@@ -64,6 +64,7 @@ Confirmation au client : {{Confirmation au client}}
                 { label: "Honoraires", type: "text" },
                 { label: "Client avisé des frais d'annulation en cours de terme", type: "select", options:["Non", "Oui", "Ne s'applique pas"] },
                 { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+                { label: "Référence - appel enregistré 3CX ET/OU courriel", type: "textarea" }
             ]
         },
         "Nouvelle affaire": {
@@ -1544,7 +1545,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                         showAddButton: false,
                         showRemoveButton: false,
                         extraFields : [
-                        { label: "Ajout de la mention succession ou retrait de l'assuré?", type: "text" },
+                        { label: "Ajout de la mention succession ou retrait de l'assuré", type: "text" },
                         ]
                     },
                     { label: "Preuve de décès obtenu?", type: "checkbox", hasDetails: false},
