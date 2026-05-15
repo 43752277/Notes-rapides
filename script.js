@@ -773,7 +773,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                             { label: "Conduira quel véhicule?", type: "text" },
                             { label: "Numéro de permis de conduire", type: "text" },
                             { label: "Type de permis de conduire", type: "select", options: ["Probatoire","Permanent","Apprenti", "Autre"] },
-                            { label: "Année d'obtention du permis de conduire", type: "date"},
+                            { label: "Date d'obtention du permis de conduire", type: "date"},
                             { label: "Infractions au code de la route au cours des trois dernières années?", type: "checkbox", hasDetails: true},
                             { label: "Suspension de permis", type: "checkbox", hasDetails: true},
                             { label: "Accident ou réclamation dans les 6 dernière années?", type: "checkbox", hasDetails: true},
