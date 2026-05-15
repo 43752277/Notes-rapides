@@ -890,6 +890,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                     { label: "Date effective de la transaction", type: "date" },
 
                     {
+                        label: "Nouvelle adresse",
                         type: "risques",
                         placeholder : "Nouvelle adresse (complète)",
                         showRemoveButton: false,
