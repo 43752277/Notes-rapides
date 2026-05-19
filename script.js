@@ -2,20 +2,24 @@
 
     let zIndexCounter = 10000;
 
-const menu = document.createElement("div");
-menu.style.position = "fixed";
-menu.style.bottom = "60px";
-menu.style.right = "20px";
-menu.style.background = "white";
-menu.style.border = "none";
-menu.style.borderRadius = "4px";
-menu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
-menu.style.display = "none";
-menu.style.zIndex = "99999";
-document.body.appendChild(menu);
+    const menu = document.createElement("div");
+    menu.style.position = "fixed";
+    menu.style.bottom = "60px";
+    menu.style.right = "20px";
+    menu.style.background = "white";
+    menu.style.border = "none";
+    menu.style.borderRadius = "4px";
+    menu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
+    menu.style.display = "none";
+    menu.style.zIndex = "99999";
+    menu.style.padding = "6px 0";
+    menu.style.borderRadius = "8px";
+    menu.style.animation = "fadeIn 0.15s ease";
+    document.body.appendChild(menu);
 
     const mainBtn = document.createElement("button");
     mainBtn.textContent = "NOTES RAPIDES";
+    mainBtn.style.cursor = "pointer";
     mainBtn.style.position = "fixed";
     mainBtn.style.bottom = "35px";
     mainBtn.style.right = "20px";
@@ -1578,10 +1582,18 @@ CRÉATION DU MENU
         Object.keys(data).forEach(function(key){
             const item=document.createElement("div");
             item.textContent=key;
+            item.style.display = "flex";
+            item.style.justifyContent = "space-between";
+            item.style.alignItems = "center";
             item.style.padding="10px 16px";
             item.style.cursor="pointer";
-            item.addEventListener("mouseenter",function(e){ e.currentTarget.style.background="#eee"; });
-            item.addEventListener("mouseleave",function(e){ e.currentTarget.style.background="white"; });
+            item.style.fontSize = "13px";
+            item.style.fontWeight = "500";
+            item.style.color = "#1a2540";
+            item.style.borderRadius = "4px";
+            item.style.margin = "2px 6px";
+            item.addEventListener("mouseenter", function(e){ e.currentTarget.style.background = "#eef3fd"; e.currentTarget.style.color = "#2c6bed"; });
+            item.addEventListener("mouseleave", function(e){ e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#1a2540"; });
             container.appendChild(item);
 
             if(typeof data[key]==="object" && !data[key].fields){
@@ -1597,8 +1609,13 @@ CRÉATION DU MENU
                 subMenu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
                 subMenu.style.padding = "6px 0";
                 item.appendChild(subMenu);
+                subMenu.classList.add("subMenuDiv");
                 item.addEventListener("click",function(e){
                     e.stopPropagation();
+                    // Fermer tous les sous-menus frères au même niveau
+                    container.querySelectorAll(":scope > div > .subMenuDiv").forEach(function(s){
+                        if(s !== subMenu) s.style.display = "none";
+                    });
                     if(subMenu.children.length===0){ createMenu(subMenu,data[key]); }
                     subMenu.style.display = subMenu.style.display==="none"?"block":"none";
                 });
@@ -1652,7 +1669,7 @@ FENÊTRE NOTE
         win.style.overflow = "hidden";
         win.style.boxShadow = "0 15px 40px rgba(0,0,0,0.25)";
         win.style.background = "white";
-        win.style.resize = "both";
+        win.style.resize = "none";
 
         win.innerHTML = `
     <div class="header" style="
@@ -1820,6 +1837,63 @@ FENÊTRE NOTE
             isDragging = false;
             document.body.style.userSelect = "";
         });
+        const resizeDirs = [
+            { pos: { top:'0', left:'4px', right:'4px', height:'6px' }, cursor:'n-resize', dir:'n' },
+            { pos: { bottom:'0', left:'4px', right:'4px', height:'6px' }, cursor:'s-resize', dir:'s' },
+            { pos: { left:'0', top:'4px', bottom:'4px', width:'6px' }, cursor:'w-resize', dir:'w' },
+            { pos: { right:'0', top:'4px', bottom:'4px', width:'6px' }, cursor:'e-resize', dir:'e' },
+            { pos: { top:'0', left:'0', width:'10px', height:'10px' }, cursor:'nw-resize', dir:'nw' },
+            { pos: { top:'0', right:'0', width:'10px', height:'10px' }, cursor:'ne-resize', dir:'ne' },
+            { pos: { bottom:'0', left:'0', width:'10px', height:'10px' }, cursor:'sw-resize', dir:'sw' },
+            { pos: { bottom:'0', right:'0', width:'10px', height:'10px' }, cursor:'se-resize', dir:'se' },
+        ];
+
+        resizeDirs.forEach(function(h) {
+            const handle = document.createElement('div');
+            handle.style.position = 'absolute';
+            handle.style.zIndex = '10';
+            handle.style.cursor = h.cursor;
+            Object.keys(h.pos).forEach(function(k) { handle.style[k] = h.pos[k]; });
+
+            handle.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const startX = e.clientX, startY = e.clientY;
+                const startW = win.offsetWidth, startH = win.offsetHeight;
+                const startLeft = win.offsetLeft, startTop = win.offsetTop;
+                const dir = h.dir;
+                win.style.zIndex = zIndexCounter++;
+
+                function onMove(e) {
+                    const dx = e.clientX - startX;
+                    const dy = e.clientY - startY;
+                    if (dir.includes('e')) win.style.width = Math.max(400, startW + dx) + 'px';
+                    if (dir.includes('s')) win.style.height = Math.max(300, startH + dy) + 'px';
+                    if (dir.includes('w')) {
+                        const newW = Math.max(400, startW - dx);
+                        win.style.width = newW + 'px';
+                        win.style.left = (startLeft + startW - newW) + 'px';
+                    }
+                    if (dir.includes('n')) {
+                        const newH = Math.max(300, startH - dy);
+                        win.style.height = newH + 'px';
+                        win.style.top = (startTop + startH - newH) + 'px';
+                    }
+                }
+
+                function onUp() {
+                    document.removeEventListener('mousemove', onMove);
+                    document.removeEventListener('mouseup', onUp);
+                    document.body.style.userSelect = '';
+                }
+
+                document.body.style.userSelect = 'none';
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('mouseup', onUp);
+            });
+
+            win.appendChild(handle);
+        });
 
         return win;
     }
@@ -1832,15 +1906,13 @@ FENÊTRE NOTE
 
         const left = document.createElement("div");
         left.style.padding = "20px";
-        left.style.borderRight = "1px solid #eee";
+        left.style.borderRight = "none";
         left.style.overflowY = "auto";
         left.style.display = "flex";
         left.style.flexDirection = "column";
         left.style.flex = "1 1 50%";
         left.style.gap = "16px";
         left.style.background = "#f7f9fc";
-
-        content.appendChild(left);
 
         const rightContainer = document.createElement("div");
         rightContainer.style.position = "relative";
@@ -1856,8 +1928,65 @@ FENÊTRE NOTE
         right.style.overflowY = "auto";
         right.style.lineHeight = "1.5";
 
-        rightContainer.appendChild(right);
+        const counter = document.createElement("div");
+        counter.style.position = "absolute";
+        counter.style.top = "8px";
+        counter.style.left = "10px";
+        counter.style.fontSize = "11px";
+        counter.style.color = "#999";
+        counter.style.pointerEvents = "none";
+        rightContainer.appendChild(counter);
+
+        const divider = document.createElement("div");
+        divider.style.width = "6px";
+        divider.style.cursor = "col-resize";
+        divider.style.background = "#e3e7ef";
+        divider.style.flexShrink = "0";
+        divider.style.transition = "background 0.2s";
+        divider.addEventListener("mouseenter", function(){ divider.style.background = "#2c6bed"; });
+        divider.addEventListener("mouseleave", function(){ divider.style.background = "#e3e7ef"; });
+
+        divider.addEventListener("dblclick", function(){
+            left.style.flex = "1 1 50%";
+            rightContainer.style.flex = "1 1 50%";
+        });
+
+        divider.addEventListener("mousedown", function(e){
+            e.preventDefault();
+            const startX = e.clientX;
+            const startL = left.offsetWidth;
+            const total = left.offsetWidth + rightContainer.offsetWidth;
+            document.body.style.userSelect = "none";
+            document.body.style.cursor = "col-resize";
+
+            function onMove(e){
+                const dx = e.clientX - startX;
+                const newL = Math.max(250, Math.min(total - 250, startL + dx));
+                left.style.flex = "0 0 " + newL + "px";
+                rightContainer.style.flex = "0 0 " + (total - newL) + "px";
+            }
+            function onUp(){
+                document.removeEventListener("mousemove", onMove);
+                document.removeEventListener("mouseup", onUp);
+                document.body.style.userSelect = "";
+                document.body.style.cursor = "";
+                divider.style.background = "#e3e7ef";
+
+                const totalNow = left.offsetWidth + rightContainer.offsetWidth;
+                const leftPct = (left.offsetWidth / totalNow * 100).toFixed(2);
+                const rightPct = (100 - leftPct).toFixed(2);
+                left.style.flex = "1 1 " + leftPct + "%";
+                rightContainer.style.flex = "1 1 " + rightPct + "%";
+            }
+            divider.style.background = "#2c6bed";
+            document.addEventListener("mousemove", onMove);
+            document.addEventListener("mouseup", onUp);
+        });
+
+        content.appendChild(left);
+        content.appendChild(divider);
         content.appendChild(rightContainer);
+        rightContainer.appendChild(right);
 
         left.style.position = "relative";
         right.style.position = "relative";
@@ -2032,6 +2161,10 @@ FENÊTRE NOTE
             container.style.marginTop = "10px";
             container.style.paddingTop = "10px";
             container.style.borderRadius = "4px";
+            container.style.background = "white";
+            container.style.borderRadius = "6px";
+            container.style.padding = "10px 12px";
+            container.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06)";
             left.appendChild(container);
 
             const title = document.createElement("h3");
@@ -2102,8 +2235,7 @@ FENÊTRE NOTE
 
                         const lbl = document.createElement("label");
                         lbl.textContent = f.label;
-                        lbl.style.width = "200px";
-                        lbl.style.flex = "0 0 200px";
+                        lbl.style.flex = "1";
                         fContainer.appendChild(lbl);
 
                         let input;
@@ -2121,7 +2253,8 @@ FENÊTRE NOTE
                             rightSide.style.display = "flex";
                             rightSide.style.alignItems = "center";
                             rightSide.style.gap = "8px";
-                            rightSide.style.flex = "1";
+                            rightSide.style.flex = "0 0 200px";
+                            rightSide.style.width = "200px";
                             rightSide.style.justifyContent = "flex-end";
 
                             rightSide.appendChild(input);
@@ -2395,6 +2528,7 @@ FENÊTRE NOTE
             }
 
             right.value = finalText;
+
         }
 
         updatePreview();
@@ -2424,12 +2558,26 @@ FENÊTRE NOTE
                 document.execCommand("copy");
                 temp.remove();
             }
+            copyBtn.textContent = "✓ Copié";
+            copyBtn.style.background = "#28a745";
+            setTimeout(function(){ copyBtn.textContent = "Copier"; copyBtn.style.background = "#2c6bed"; }, 1500);
         };
         rightContainer.appendChild(copyBtn);
     }
 
     createMenu(menu,notesData);
-    mainBtn.onclick=function(e){ e.stopPropagation(); menu.style.display=menu.style.display==="none"?"block":"none"; };
-    document.addEventListener("click",function(){ menu.style.display="none"; });
+    mainBtn.onclick=function(e){
+        e.stopPropagation();
+        if(menu.style.display==="none"){
+            menu.style.display="block";
+        } else {
+            closeAllMenus();
+        }
+    };
+    function closeAllMenus(){
+        menu.style.display="none";
+        menu.querySelectorAll(".subMenuDiv").forEach(function(s){ s.style.display="none"; });
+    }
+    document.addEventListener("click", closeAllMenus);
 
 })();
