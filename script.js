@@ -14,6 +14,8 @@
     menu.style.zIndex = "99999";
     menu.style.padding = "6px 0";
     menu.style.borderRadius = "8px";
+    menu.style.minWidth = "200px";
+    menu.style.width = "200px";
     menu.style.animation = "fadeIn 0.15s ease";
     document.body.appendChild(menu);
 
@@ -29,6 +31,239 @@
     mainBtn.onclick = function(){
         menu.style.display = menu.style.display === "none" ? "block" : "none";
     };
+
+    function sauvegarderHistorique(titre, texte) {
+        let historique = JSON.parse(localStorage.getItem("notesHistorique") || "[]");
+        historique.unshift({ titre: titre, texte: texte, date: new Date().toLocaleString("fr-CA") });
+        historique = historique.slice(0, 5);
+        localStorage.setItem("notesHistorique", JSON.stringify(historique));
+    }
+
+    const histBtn = document.createElement("button");
+    histBtn.textContent = "HISTORIQUE";
+    histBtn.style.cursor = "pointer";
+    histBtn.style.position = "fixed";
+    histBtn.style.bottom = "35px";
+    histBtn.style.right = "160px";
+    histBtn.style.zIndex = "99998";
+    histBtn.style.background = "#f2f2f2";
+    document.body.appendChild(histBtn);
+
+    histBtn.onclick = function(e) {
+        e.stopPropagation();
+        let historique = JSON.parse(localStorage.getItem("notesHistorique") || "[]");
+        if (historique.length === 0) { alert("Aucune note dans l'historique."); return; }
+
+        const win = createWindow("Historique des notes");
+        const content = win.querySelector(".content");
+        content.style.flexDirection = "column";
+        content.style.overflowY = "auto";
+        content.style.padding = "16px";
+        content.style.gap = "12px";
+        content.style.background = "#f7f9fc";
+
+        function afficherHistorique() {
+            content.innerHTML = "";
+            let historique = JSON.parse(localStorage.getItem("notesHistorique") || "[]");
+
+            historique.forEach(function(note, index) {
+                const card = document.createElement("div");
+                card.style.background = "white";
+                card.style.border = "1px solid #e3e7ef";
+                card.style.borderRadius = "6px";
+                card.style.padding = "12px";
+                card.style.boxShadow = "0 1px 3px rgba(0,0,0,0.06)";
+
+                const header = document.createElement("div");
+                header.style.display = "flex";
+                header.style.justifyContent = "space-between";
+                header.style.alignItems = "center";
+                header.style.marginBottom = "8px";
+
+                const titreEl = document.createElement("strong");
+                titreEl.textContent = note.titre;
+                titreEl.style.fontSize = "13px";
+
+                const dateEl = document.createElement("span");
+                dateEl.textContent = note.date;
+                dateEl.style.fontSize = "11px";
+                dateEl.style.color = "#999";
+
+                header.appendChild(titreEl);
+                header.appendChild(dateEl);
+
+                const preview = document.createElement("textarea");
+                preview.value = note.texte;
+                preview.style.width = "100%";
+                preview.style.height = "150px";
+                preview.style.fontSize = "12px";
+                preview.style.border = "1px solid #d6dbe6";
+                preview.style.borderRadius = "4px";
+                preview.style.resize = "vertical";
+                preview.style.boxSizing = "border-box";
+                preview.style.padding = "8px";
+
+                preview.addEventListener("input", function() {
+                    let historique = JSON.parse(localStorage.getItem("notesHistorique") || "[]");
+                    historique[index].texte = preview.value;
+                    localStorage.setItem("notesHistorique", JSON.stringify(historique));
+                });
+
+                const btnRow = document.createElement("div");
+                btnRow.style.display = "flex";
+                btnRow.style.gap = "8px";
+                btnRow.style.marginTop = "8px";
+
+                const copyHistBtn = document.createElement("button");
+                copyHistBtn.textContent = "Copier";
+                copyHistBtn.style.flex = "1";
+                copyHistBtn.style.background = "#2c6bed";
+                copyHistBtn.style.color = "white";
+                copyHistBtn.style.border = "none";
+                copyHistBtn.style.padding = "6px 12px";
+                copyHistBtn.style.borderRadius = "4px";
+                copyHistBtn.style.cursor = "pointer";
+                copyHistBtn.onclick = function() {
+                    navigator.clipboard && navigator.clipboard.writeText(preview.value);
+                    copyHistBtn.textContent = "✓ Copié";
+                    copyHistBtn.style.background = "#28a745";
+                    setTimeout(function(){ copyHistBtn.textContent = "Copier"; copyHistBtn.style.background = "#2c6bed"; }, 1500);
+                };
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Supprimer";
+                deleteBtn.style.flex = "1";
+                deleteBtn.style.background = "#d9534f";
+                deleteBtn.style.color = "white";
+                deleteBtn.style.border = "none";
+                deleteBtn.style.padding = "6px 12px";
+                deleteBtn.style.borderRadius = "4px";
+                deleteBtn.style.cursor = "pointer";
+                deleteBtn.onclick = function() {
+                    let historique = JSON.parse(localStorage.getItem("notesHistorique") || "[]");
+                    historique.splice(index, 1);
+                    localStorage.setItem("notesHistorique", JSON.stringify(historique));
+                    afficherHistorique();
+                };
+
+                const editBtn = document.createElement("button");
+                editBtn.textContent = "Modifier";
+                editBtn.style.flex = "1";
+                editBtn.style.background = "#f0a500";
+                editBtn.style.color = "white";
+                editBtn.style.border = "none";
+                editBtn.style.padding = "6px 12px";
+                editBtn.style.borderRadius = "4px";
+                editBtn.style.cursor = "pointer";
+                editBtn.onclick = function() {
+                    const editWin = createWindow("Copie - " + note.titre);
+                    const editContent = editWin.querySelector(".content");
+                    editContent.style.flexDirection = "column";
+                    editContent.style.position = "relative";
+
+                    const editTextarea = document.createElement("textarea");
+                    editTextarea.value = note.texte;
+                    editTextarea.style.flex = "1";
+                    editTextarea.style.padding = "15px";
+                    editTextarea.style.border = "none";
+                    editTextarea.style.resize = "none";
+                    editTextarea.style.fontSize = "13px";
+                    editTextarea.style.lineHeight = "1.5";
+                    editContent.appendChild(editTextarea);
+
+                    const editCopyBtn = document.createElement("button");
+                    editCopyBtn.textContent = "Copier";
+                    editCopyBtn.style.position = "absolute";
+                    editCopyBtn.style.bottom = "10px";
+                    editCopyBtn.style.right = "20px";
+                    editCopyBtn.style.zIndex = "1000";
+                    editCopyBtn.style.background = "#2c6bed";
+                    editCopyBtn.style.color = "white";
+                    editCopyBtn.style.border = "none";
+                    editCopyBtn.style.padding = "8px 14px";
+                    editCopyBtn.style.borderRadius = "4px";
+                    editCopyBtn.style.cursor = "pointer";
+                    editCopyBtn.style.boxShadow = "0 4px 10px rgba(0,0,0,0.15)";
+                    editCopyBtn.onclick = function() {
+                        navigator.clipboard && navigator.clipboard.writeText(editTextarea.value);
+                        sauvegarderHistorique("Copie - " + note.titre, editTextarea.value);
+                        editCopyBtn.textContent = "✓ Copié";
+                        editCopyBtn.style.background = "#28a745";
+                        setTimeout(function(){ editCopyBtn.textContent = "Copier"; editCopyBtn.style.background = "#2c6bed"; }, 1500);
+                    };
+                    editContent.appendChild(editCopyBtn);
+                };
+
+                btnRow.appendChild(copyHistBtn);
+                btnRow.appendChild(editBtn);
+                btnRow.appendChild(deleteBtn);
+
+                card.appendChild(header);
+                card.appendChild(preview);
+                card.appendChild(btnRow);
+                content.appendChild(card);
+            });
+        }
+
+        afficherHistorique();
+    };
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    function toggleMenuAtMouse() {
+        menu.style.bottom = "auto";
+        menu.style.right = "auto";
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+
+        if (menu.style.display === "block") {
+            // Position initiale
+            let x = lastMouseX;
+            let y = lastMouseY;
+
+            // Appliquer d'abord pour obtenir les dimensions réelles
+            menu.style.left = x + "px";
+            menu.style.top = y + "px";
+
+            // Corriger si dépasse à droite
+            const menuRect = menu.getBoundingClientRect();
+            if (menuRect.right > window.innerWidth) {
+                x = window.innerWidth - menu.offsetWidth - 10;
+            }
+
+            // Corriger si dépasse en bas
+            if (menuRect.bottom > window.innerHeight) {
+                y = window.innerHeight - menuRect.height - 10;
+            }
+
+            // Corriger si dépasse à gauche
+            if (x < 0) x = 10;
+
+            // Corriger si dépasse en haut
+            if (y < 0) y = 10;
+
+            menu.style.left = x + "px";
+            menu.style.top = y + "px";
+        }
+    }
+
+    document.addEventListener("mousemove", function(e) {
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+    });
+
+    window.addEventListener("keydown", function(e) {
+        if (e.ctrlKey && (e.code === "NumpadEnter" || e.code === "Enter")) {
+            e.preventDefault();
+            toggleMenuAtMouse();
+        }
+    }, true);
+
+    document.addEventListener("keydown", function(e) {
+        if (e.ctrlKey && (e.code === "NumpadEnter" || e.code === "Enter")) {
+            e.preventDefault();
+            toggleMenuAtMouse();
+        }
+    });
 
     /* -------------------------
 DONNÉES DES NOTES
@@ -1600,24 +1835,71 @@ CRÉATION DU MENU
                 const subMenu=document.createElement("div");
                 subMenu.style.position="absolute";
                 subMenu.style.right="100%";
+                subMenu.style.zIndex = "99999";
                 subMenu.style.bottom="0";
+                item.addEventListener("mouseenter", function(){
+                    const rect = item.getBoundingClientRect();
+                    if (rect.left - subMenu.offsetWidth < 0) {
+                        subMenu.style.right = "auto";
+                        subMenu.style.left = "100%";
+                    }
+                    if (rect.top < window.innerHeight / 2) {
+                        subMenu.style.bottom = "auto";
+                        subMenu.style.top = "0";
+                    }
+                });
                 subMenu.style.width="280px";
                 subMenu.style.background="white";
                 subMenu.style.display="none";
                 subMenu.style.border = "none";
                 subMenu.style.borderRadius = "4px";
+                subMenu.style.zIndex = "99999";
                 subMenu.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
                 subMenu.style.padding = "6px 0";
                 item.appendChild(subMenu);
                 subMenu.classList.add("subMenuDiv");
-                item.addEventListener("click",function(e){
+
+                item.addEventListener("click", function(e) {
                     e.stopPropagation();
-                    // Fermer tous les sous-menus frères au même niveau
-                    container.querySelectorAll(":scope > div > .subMenuDiv").forEach(function(s){
-                        if(s !== subMenu) s.style.display = "none";
+
+                    const isOpen = subMenu.style.display !== "none";
+
+                    container.querySelectorAll(":scope > div > .subMenuDiv").forEach(function(s) {
+                        if (s !== subMenu) s.style.display = "none";
                     });
-                    if(subMenu.children.length===0){ createMenu(subMenu,data[key]); }
-                    subMenu.style.display = subMenu.style.display==="none"?"block":"none";
+
+                    if (isOpen) {
+                        subMenu.style.display = "none";
+                        return;
+                    }
+
+                    if (subMenu.children.length === 0) {
+                        createMenu(subMenu, data[key]);
+                    }
+
+                    // Repositionner en fixed par rapport à l'item
+                    const itemRect = item.getBoundingClientRect();
+                    subMenu.style.position = "fixed";
+                    subMenu.style.right = "auto";
+                    subMenu.style.bottom = "auto";
+                    subMenu.style.display = "block";
+
+                    // Par défaut à gauche de l'item
+                    let x = itemRect.left - subMenu.offsetWidth;
+                    let y = itemRect.top;
+
+                    // Si ça dépasse à gauche, mettre à droite
+                    if (x < 0) x = itemRect.right;
+
+                    // Si ça dépasse en bas, remonter
+                    if (y + subMenu.offsetHeight > window.innerHeight) {
+                        y = window.innerHeight - subMenu.offsetHeight - 10;
+                    }
+
+                    if (y < 0) y = 10;
+
+                    subMenu.style.left = x + "px";
+                    subMenu.style.top = y + "px";
                 });
             } else {
                 item.addEventListener("click",function(){ menu.style.display="none"; openNote(data[key],key); });
@@ -2146,7 +2428,52 @@ FENÊTRE NOTE
             }
 
             if(input){
-                container.appendChild(input);
+                if (f.label === "Nom du client") {
+                    const row = document.createElement("div");
+                    row.style.display = "flex";
+                    row.style.flexDirection = "row";
+                    row.style.gap = "6px";
+                    row.style.alignItems = "center";
+                    row.style.width = "100%";
+                    row.style.boxSizing = "border-box";
+
+                    input.style.boxSizing = "border-box";
+
+                    const fetchBtn = document.createElement("button");
+                    fetchBtn.textContent = "📋";
+                    fetchBtn.type = "button";
+                    fetchBtn.title = "Récupérer le nom du client";
+                    fetchBtn.style.flex = "0 0 36px";
+                    fetchBtn.style.width = "36px";
+                    fetchBtn.style.height = "36px";
+                    fetchBtn.style.padding = "0";
+                    fetchBtn.style.background = "#2c6bed";
+                    fetchBtn.style.color = "white";
+                    fetchBtn.style.border = "none";
+                    fetchBtn.style.borderRadius = "4px";
+                    fetchBtn.style.cursor = "pointer";
+                    fetchBtn.onclick = function() {
+                        const nom = document.title.split(" - ")[1] || "";
+                        if (nom) {
+                            input.value = nom;
+                            updatePreview();
+                            fetchBtn.textContent = "✓";
+                            fetchBtn.style.background = "#28a745";
+                            setTimeout(function(){ fetchBtn.textContent = "📋"; fetchBtn.style.background = "#2c6bed"; }, 1500);
+                        } else {
+                            fetchBtn.textContent = "✗";
+                            fetchBtn.style.background = "#d9534f";
+                            setTimeout(function(){ fetchBtn.textContent = "📋"; fetchBtn.style.background = "#2c6bed"; }, 1500);
+                        }
+                    };
+
+                    row.appendChild(input);
+                    row.appendChild(fetchBtn);
+                    container.appendChild(row);
+                } else {
+                    container.appendChild(input);
+                }
+
                 input.addEventListener("input", updatePreview);
                 input.addEventListener("change", updatePreview);
                 inputs[f.id || f.label] = input;
@@ -2558,6 +2885,7 @@ FENÊTRE NOTE
                 document.execCommand("copy");
                 temp.remove();
             }
+            sauvegarderHistorique(title, right.value);
             copyBtn.textContent = "✓ Copié";
             copyBtn.style.background = "#28a745";
             setTimeout(function(){ copyBtn.textContent = "Copier"; copyBtn.style.background = "#2c6bed"; }, 1500);
@@ -2566,10 +2894,15 @@ FENÊTRE NOTE
     }
 
     createMenu(menu,notesData);
-    mainBtn.onclick=function(e){
+    mainBtn.onclick = function(e) {
         e.stopPropagation();
-        if(menu.style.display==="none"){
-            menu.style.display="block";
+        // Réinitialiser la position en bas à droite
+        menu.style.left = "auto";
+        menu.style.top = "auto";
+        menu.style.right = "20px";
+        menu.style.bottom = "60px";
+        if (menu.style.display === "none") {
+            menu.style.display = "block";
         } else {
             closeAllMenus();
         }
