@@ -289,7 +289,7 @@ Confirmation au client : {{Confirmation au client}}
             fields: [
                 { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
                 { label: "Nom du client", type: "text" },
-                { label: "Type d'annulation", type: "select", options: ["Annulation par l'assuré","Annulation par l'assureur","Annulation pour non-paiement","Changement assureur à l'interne"] },
+                { label: "Type d'annulation", type: "select", options: ["Annulation par l'assuré","Annulation par l'assureur","Changement assureur à l'interne"] },
                 { label: "Date d'annulation", type: "date" },
                 { label: "Raison de l'annulation", type: "select", options: ["Assureur - Annulation pour non-paiement","Assureur - Annulation pour aggravation du risque","Assureur - Annulation pour fausse déclaration","Client - Autre courtier est ami/famille","Client - Décédé","Client - Risque vendu","Client - Transfert d'agence","Client - Perdu à autre","Courtier - Transfert d'assureur"] },
                 { label: "Démarches de sauvetage", type: "text" },
