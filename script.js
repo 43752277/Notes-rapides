@@ -954,7 +954,8 @@ Information complémentaire : {{Information complémentaire}}
                         extraFields: [
                             { label: "Formulaire", type: "text"},
                             { label: "Batiment", type: "text"},
-                            { label: "Dépendances", type: "checkbox"},
+                            { label: "Biens meubles", type: "checkbox", hasDetails : true},
+                            { label: "Dépendances", type: "checkbox", hasDetails : true},
                             { label: "Responsabilité Civile", type: "select", options: ["2 000 000","1 000 000"] },
                             { label: "Franchise", type: "select", options: ["Aucun", "250", "300", "500", "1000", "1500", "2000", "2500", "5000", "10000"] },
                             { label: "Incendie explosion et fumée suite à un tremblement de terre", type: "checkbox"},
