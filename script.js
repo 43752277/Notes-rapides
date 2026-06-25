@@ -1415,6 +1415,40 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                 ]
             },
         },
+        "Renouvellement": {
+            template: `Analyse du renouvellement
+Prime renouvellement à : {{Prime renouvellement}}
+Prime expirante : {{Prime expirante}}
+Différence de : {{Différence}}
+
+Informations/Commentaires sur le risque : {{Information complémentaire sur le risque}}
+Résumé des protections manquante, inadmissible et/ou refusées : {{Résumé des protections manquantes, inadmissible et/ou refusées}}
+Résumé des changements (retrait/ajout protections ou rabais) : {{Résumé des changements de protections ou rabais ajouté/retiré}}
+
+{{Avis fait au client - retrait de protections et/ou augmentation des franchises}} à l'assuré afin d'avisé de retrait de protections et/ou augmentation des franchises
+
+Mise à jour du dossier dans les 3 dernières années : {{Mise à jour du dossier dans les 3 dernières années}}
+Mise en marché pour le renouvellement : {{Mise en marché pour le renouvellement}}
+Contact avec le client pour le renouvellement : {{Contact avec le client pour le renouvellement}}
+
+Référence - appel enregistré 3CX ou courriel en pièce jointe : {{Référence - appel enregistré 3CX ou courriel}}
+
+Document(s) à envoyer par l'assistante : {{Documents à envoyer par l'assistante? Si oui, décrire les documents à envoyer et mettre l'activité à l'assistante}}
+`,
+            fields: [
+                { label: "Prime renouvellement", type: "text" },
+                { label: "Prime expirante", type: "text" },
+                { label: "Information complémentaire sur le risque", type: "textarea" },
+                { label: "Résumé des protections manquantes, inadmissible et/ou refusées", type: "textarea" },
+                { label: "Résumé des changements de protections ou rabais ajouté/retiré", type: "textarea" },
+                { label: "Avis fait au client - retrait de protections et/ou augmentation des franchises", type: "select", options:["Aucun avis fait", "Avis fait par courriel", "Avis envoyé par la poste", "Avis fait par téléphone"] },
+                { label: "Mise à jour du dossier dans les 3 dernières années", type: "select", options : ["Oui", "Non"] },
+                { label: "Mise en marché pour le renouvellement", type: "select", options : ["Oui", "Non"] },
+                { label: "Contact avec le client pour le renouvellement", type: "select", options : ["Oui", "Non"] },
+                { label: "Référence - appel enregistré 3CX ou courriel", type: "textarea" },
+                { label: "Documents à envoyer par l'assistante? Si oui, décrire les documents à envoyer et mettre l'activité à l'assistante", type: "textarea" },
+            ]
+        },
         "Mise à jour": {
             "Mise à jour - Automobile": {
                 template: `{{Type de communication}} {{Nom du client}}
@@ -2854,6 +2888,16 @@ FENÊTRE NOTE
 
                 finalText = finalText.replace("{{RISQUES}}", risquesText);
             }
+            const expirante = parseFloat(inputs["Prime expirante"]?.value) || 0;
+            const renouvellement = parseFloat(inputs["Prime renouvellement"]?.value) || 0;
+
+            let difference = "";
+
+            if (expirante > 0) {
+                difference = (((renouvellement - expirante) / expirante) * 100).toFixed(2) + "%";
+            }
+
+            finalText = finalText.replace("{{Différence}}", difference);
 
             right.value = finalText;
 
