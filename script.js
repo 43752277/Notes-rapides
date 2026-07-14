@@ -1113,9 +1113,7 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
             },
             "Changement d'adresse": {
                 template: `{{Type de communication}} {{Nom du client}}
-Ajout de véhicule(s) en date du {{Date effective de la transaction}}
-
-Risque(s) ajouté(s) sur la police :
+Changement d'adresse en date du {{Date effective de la transaction}}
 
 {{RISQUES}}
 Transaction {{État}} chez {{Assureur}} {{Méthode}}
