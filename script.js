@@ -216,29 +216,23 @@
         menu.style.display = menu.style.display === "none" ? "block" : "none";
 
         if (menu.style.display === "block") {
-            // Position initiale
             let x = lastMouseX;
             let y = lastMouseY;
 
-            // Appliquer d'abord pour obtenir les dimensions réelles
             menu.style.left = x + "px";
             menu.style.top = y + "px";
 
-            // Corriger si dépasse à droite
             const menuRect = menu.getBoundingClientRect();
             if (menuRect.right > window.innerWidth) {
                 x = window.innerWidth - menu.offsetWidth - 10;
             }
 
-            // Corriger si dépasse en bas
             if (menuRect.bottom > window.innerHeight) {
                 y = window.innerHeight - menuRect.height - 10;
             }
 
-            // Corriger si dépasse à gauche
             if (x < 0) x = 10;
 
-            // Corriger si dépasse en haut
             if (y < 0) y = 10;
 
             menu.style.left = x + "px";
@@ -277,6 +271,7 @@ Type d'annulation : {{Type d'annulation}}
 Annulation en date du {{Date d'annulation}}
 Raison de l'annulation : {{Raison de l'annulation}}
 Démarches de sauvetage : {{Démarches de sauvetage}}
+Si perdu à autre assureur, préciser le nom de l'assureur et la prime reçu : {{Si perdu à autre assureur, préciser le nom de l'assureur et la prime reçu}}
 Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)? {{Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)?}}
 Sollicitation : {{Sollicitation}}
 Information complémentaire : {{Information complémentaire}}
@@ -285,6 +280,7 @@ Crédit : {{Crédit}}$
 Honoraires : {{Honoraires}}$
 Client avisé des frais d'annulation en cours de terme : {{Client avisé des frais d'annulation en cours de terme}}
 Confirmation au client : {{Confirmation au client}}
+Document à envoyer par l'assistant(e)? Si oui, d'écrire les documents et mettre activité à l'assistant(e) : {{Document à envoyer par l'assistant(e)? Si oui, d'écrire les documents et mettre activité à l'assistant(e)}}
 `,
             fields: [
                 { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
@@ -292,6 +288,8 @@ Confirmation au client : {{Confirmation au client}}
                 { label: "Type d'annulation", type: "select", options: ["Annulation par l'assuré (Non-renouvellement)", "Annulation par l'assuré (En court de terme)","Annulation par l'assureur","Changement assureur à l'interne"] },
                 { label: "Date d'annulation", type: "date" },
                 { label: "Raison de l'annulation", type: "select", options: ["Assureur - Annulation pour non-paiement","Assureur - Annulation pour aggravation du risque","Assureur - Annulation pour fausse déclaration","Client - Autre courtier est ami/famille","Client - Décédé","Client - Risque vendu","Client - Transfert d'agence","Client - Perdu à autre","Courtier - Transfert d'assureur"] },
+                { label: "Si perdu à autre assureur, préciser le nom de l'assureur et la prime reçu", type: "text" },
+                { label: "Si annulation pour non-paiement, de quel façon la lettre de fin de mandat est transmise à l'assuré?", type: "select", options:["Ne s'applique pas", "Par courriel (courtier)", "Par la poste (assistant)"] },
                 { label: "Démarches de sauvetage", type: "text" },
                 { label: "Avant de procéder chez l’assureur, est-ce que la confirmation écrite de tous les assurés désignés au contrat a été obtenue et en cas d’annulation court-terme, les signatures ont été obtenues (obligatoire)?", type: "select", options:["Reçu par courriel", "Reçu par la poste", "En attente", "Ne s'applique pas"] },
                 { label: "Sollicitation", type: "select", options:["Refusée", "Acceptée", "Ne pas solliciter", "Ne s'applique pas"] },
@@ -303,7 +301,8 @@ Confirmation au client : {{Confirmation au client}}
                 { label: "Honoraires", type: "text" },
                 { label: "Client avisé des frais d'annulation en cours de terme", type: "select", options:["Non", "Oui", "Ne s'applique pas"] },
                 { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
-                { label: "Référence - appel enregistré 3CX ET/OU courriel", type: "textarea" }
+                { label: "Référence - appel enregistré 3CX ET/OU courriel", type: "textarea" },
+                { label: "Document à envoyer par l'assistant(e)? Si oui, d'écrire les documents et mettre activité à l'assistant(e)", type: "textarea" },
             ]
         },
         "Nouvelle affaire": {
@@ -1225,6 +1224,52 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
 
                 ]
             },
+            "Retrait de conducteur/assuré": {
+                template: `{{Type de communication}} {{Nom du client}}
+Retrait de conducteur/assuré en date du {{Date effective de la transaction}}
+
+Conducteur/assurés(s) retiré(s) sur la police :
+
+{{RISQUES}}
+Méthode de confirmation reçu (de chaque assuré) : {{Méthode de confirmation reçu}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+
+                    {
+                        label: "Conducteur(s)/Assuré(s)",
+                        type: "risques",
+                        showAddButton: true,
+                        placeholder: "Nom complet du conducteur/assuré",
+                        addButtonText: "Conducteur/assuré additionnel à retirer",
+
+                        extraFields: [
+                            { label: "Raison du retrait", type: "textarea" },
+                        ],
+
+                    },
+                    { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
             "Retrait de voiture": {
                 template: `{{Type de communication}} {{Nom du client}}
 Retrait de véhicule(s) en date du {{Date effective de la transaction}}
@@ -1358,6 +1403,585 @@ Le client a été avisé de la différence de prime : {{Confirmation au client}}
                             { label: "Information complémentaire", type: "textarea" },
                         ],
                     },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Ajout - Propriétaire occupant": {
+                template: `{{Type de communication}} {{Nom du client}}
+Ajout de risque(s) en date du {{Date effective de la transaction}}
+Si substitution, adresse du risque à retirer : {{Substitution? (Si oui, mettre adresse du risque à retirer)}}
+
+Risque(s) ajouté(s) sur la police :
+
+{{RISQUES}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+                    { label: "Substitution? (Si oui, mettre adresse du risque à retirer)", type: "checkbox", hasDetails: true},
+
+                    {
+                        label: "Risque(s)",
+                        type: "risques",
+                        placeholder: "Adresse (ex. 5080-5025 Boul Lapinière)",
+                        showAddButton: true,
+                        addButtonText: "Ajouter un autre PROO",
+
+                        extraFields: [
+                            { label: "Date de la prise de possession du risque", type: "date" },
+                            { label: "Année de construction", type: "text" },
+                            { label: "Bâtiment résistant au feu", type: "checkbox" },
+                            { label: "Structure du bâtiment", type: "select", options: ["Choisir","Unifamiliale","Maison en rangée","Duplex, triplex, etc..."] },
+                            { label: "Nombre de logis", type: "text" },
+                            { label: "Nombre d'étages", type: "text" },
+                            { label: "Poste de pompier à moins de 8km", type: "checkbox" },
+                            { label: "Borne fontaine à moins de 300m", type: "checkbox" },
+                            { label: "Présence d'un commerce dans le bâtiment et/ou activité professionnel exercé à domicile et/ou entreposage outil professionnel", type: "checkbox", hasDetails: true},
+                            { label: "Présence d'animaux domestiques", type: "checkbox", hasDetails: true},
+                            { label: "Fumeur", type: "checkbox" },
+                            { label: "Si logement loué à des tiers, préciser si courte durée, bail annuel, etc.", type: "text" },
+                            { label: "Type de chauffage principal", type: "text" },
+                            { label: "Type de chauffage secondaire (confirmez que tout est homologué puis aux normes)", type: "text" },
+                            { label: "Année de la dernière rénovation du chauffage principal/secondaire", type: "text" },
+                            { label: "Type de panneaux électrique", type: "select", options: ["Disjoncteurs","Fusibles"] },
+                            { label: "Ampérage du panneau électrique", type: "text" },
+                            { label: "Type de filage électrique", type: "select", options: ["Cuivre","Aluminium","Fil de fer"] },
+                            { label: "Année de la dernière rénovation de l'électricité/panneau", type: "text" },
+                            { label: "Matériau principal de la plomberie", type: "select", options: ["Cuivre","Plomb","Fer","Galvanisé", "ABS", "PEX", "PB", "PVC", "Poly-B"] },
+                            { label: "Année de la dernière rénovation de la plomberie", type: "text" },
+                            { label: "Année du chauffe-eau", type: "text" },
+                            { label: "Fosse septique", type: "checkbox" },
+                            { label: "Clapet anti-retour", type: "select", options: ["Oui","Non","Ne sait pas"] },
+                            { label: "Pompe sumbmersible", type: "checkbox" },
+                            { label: "Type de toiture", type: "select", options: ["Bardeaux d'asphalte","Bardeaux de bois","Tôle","Ardoise","Elastomère"] },
+                            { label: "Année du dernier remplacement de la toiture", type: "text" },
+                            { label: "Type d'isolation", type: "text" },
+                            { label: "Type de fondation", type: "select", options: ["Béton coulé","Bloc de béton","Pierre des champs","Pilotis","Pieux"] },
+                            { label: "Année de rénovation la porte/fenetre la plus vieille", type: "text" },
+                            { label: "Présence de dépendances dont l'assuré est propriétaire sur les lieux assurés (garage, remise, cabanon, atelier, etc.)", type: "textarea"},
+                            { label: "Dommage d'eau subi par la résidence dans les 10 dernières années", type: "checkbox", hasDetails: true},
+                            { label: "Rénovations, correctifs, travaux à venir", type: "checkbox", hasDetails: true},
+                            { label: "Aire habitable de la propriété (sans le sous-sol)", type: "text" },
+                            { label: "Présence d'un sous-sol", type: "select", options: ["Aucun","Sous-sol","Vide sanitaire","Cave","Logement loué"] },
+                            { label: "Pourcentage de finition du sous-sol", type: "text" },
+                            { label: "Air de la section sous-sol", type: "text" },
+                            { label: "Nombre de salle de bain", type: "text" },
+                            { label: "Nombre de salle d'eau", type: "text" },
+                            { label: "Présence de système d'alarme (préciser si relié à la centrale ou non)", type: "checkbox", hasDetails: true},
+                            { label: "Élément à déclarer qui pourrait avoir un impact sur l'évaluation du dossier", type: "textarea"},
+                            { label: "Objet de valeur (vélos, bijoux, collection, tracteur, etc.)", type: "textarea"},
+                            { label: "Présence d'un créancier hypothécaire", type: "checkbox", hasDetails: true},
+                            { label: "Formulaire", type: "text"},
+                            { label: "Batiment", type: "text"},
+                            { label: "Montant global", type: "text"},
+                            { label: "Dépendances", type: "checkbox"},
+                            { label: "Biens meubles", type: "checkbox"},
+                            { label: "Frais de subsistance supplémentaire", type: "checkbox"},
+                            { label: "Responsabilité Civile", type: "select", options: ["2 000 000","1 000 000"] },
+                            { label: "Franchise", type: "select", options: ["Aucun", "250", "300", "500", "1000", "1500", "2000", "2500", "5000", "10000"] },
+                            { label: "Incendie explosion et fumée suite à un tremblement de terre", type: "checkbox"},
+                            { label: "Tremblement de terre", type: "checkbox", hasDetails : true},
+                            { label: "Vol d'identité", type: "checkbox"},
+                            { label: "Spa/Piscine creusé", type: "checkbox"},
+                            { label: "Spa/Piscine hors-terre", type: "checkbox"},
+                            { label: "Eau au-dessus du sol", type: "checkbox"},
+                            { label: "Refoulement d'égouts et eau du sol", type: "checkbox", hasDetails : true},
+                            { label: "Débordement de cours d'eau", type: "checkbox", hasDetails : true},
+                            { label: "Indemnisation sans obligation de reconstruire le batiment", type: "checkbox"},
+                            { label: "Indemnisation sans obligation de remplacer les biens meubles", type: "checkbox"},
+                            { label: "Assistance juridique", type: "checkbox"},
+                            { label: "Entrée d'eau", type: "checkbox"},
+                            { label: "Valeur locative", type: "checkbox", hasDetails : true },
+                        ],
+                    },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Ajout - Locataire occupant": {
+                template: `{{Type de communication}} {{Nom du client}}
+Ajout de risque(s) en date du {{Date effective de la transaction}}
+Si substitution, adresse du risque à retirer : {{Substitution? (Si oui, mettre adresse du risque à retirer)}}
+
+Risque(s) ajouté(s) sur la police :
+
+{{RISQUES}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+                    { label: "Substitution? (Si oui, mettre adresse du risque à retirer)", type: "checkbox", hasDetails: true},
+
+                    {
+                        label: "Risque(s)",
+                        type: "risques",
+                        placeholder: "Adresse (ex. 5080-5025 Boul Lapinière)",
+                        showAddButton: true,
+                        addButtonText: "Ajouter un autre LOCO",
+
+                        extraFields: [
+                            { label: "Date de la prise de possession du risque", type: "date" },
+                            { label: "Année de construction", type: "text" },
+                            { label: "Bâtiment résistant au feu", type: "checkbox" },
+                            { label: "Structure du bâtiment", type: "select", options: ["Choisir","Unifamiliale","Maison en rangée","Duplex, triplex, etc...", "Tour d'appartements"] },
+                            { label: "Nombre de logis", type: "text" },
+                            { label: "Nombre d'étages", type: "text" },
+                            { label: "Poste de pompier à moins de 8km", type: "checkbox" },
+                            { label: "Borne fontaine à moins de 300m", type: "checkbox" },
+                            { label: "Présence d'un commerce dans le bâtiment et/ou activité professionnel exercé à domicile et/ou entreposage outil professionnel", type: "checkbox", hasDetails: true},
+                            { label: "Présence d'animaux domestiques", type: "checkbox", hasDetails: true},
+                            { label: "Fumeur", type: "checkbox" },
+                            { label: "Type de chauffage principal", type: "text" },
+                            { label: "Type de chauffage secondaire (confirmez que tout est homologué puis aux normes)", type: "text" },
+                            { label: "Type de toiture", type: "select", options: ["Bardeaux d'asphalte","Bardeaux de bois","Tôle","Ardoise","Elastomère"] },
+                            { label: "Présence de dépendances dont l'assuré est propriétaire sur les lieux assurés (garage, remise, cabanon, atelier, etc.)", type: "textarea"},
+                            { label: "Dommage d'eau subi par la résidence dans les 10 dernières années", type: "checkbox", hasDetails: true},
+                            { label: "Présence de système d'alarme (préciser si relié à la centrale ou non)", type: "checkbox", hasDetails: true},
+                            { label: "Élément à déclarer qui pourrait avoir un impact sur l'évaluation du dossier", type: "textarea"},
+                            { label: "Objet de valeur (vélos, bijoux, collection, tracteur, etc.)", type: "textarea"},
+                            { label: "Formulaire", type: "text"},
+                            { label: "Biens meubles", type: "text"},
+                            { label: "Dépendances", type: "checkbox"},
+                            { label: "Frais de subsistance supplémentaire", type: "checkbox"},
+                            { label: "Responsabilité Civile", type: "select", options: ["2 000 000","1 000 000"] },
+                            { label: "Franchise", type: "select", options: ["Aucun", "250", "300", "500", "1000", "1500", "2000", "2500", "5000", "10000"] },
+                            { label: "Incendie explosion et fumée suite à un tremblement de terre", type: "checkbox"},
+                            { label: "Tremblement de terre", type: "checkbox", hasDetails : true},
+                            { label: "Vol d'identité", type: "checkbox"},
+                            { label: "Eau au-dessus du sol", type: "checkbox"},
+                            { label: "Refoulement d'égouts et eau du sol", type: "checkbox", hasDetails : true},
+                            { label: "Débordement de cours d'eau", type: "checkbox", hasDetails : true},
+                            { label: "Indemnisation sans obligation de remplacer les biens meubles", type: "checkbox"},
+                            { label: "Assistance juridique", type: "checkbox"},
+                        ],
+                    },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Ajout - Copropriétaire occupant": {
+                template: `{{Type de communication}} {{Nom du client}}
+Ajout de risque(s) en date du {{Date effective de la transaction}}
+Si substitution, adresse du risque à retirer : {{Substitution? (Si oui, mettre adresse du risque à retirer)}}
+
+Risque(s) ajouté(s) sur la police :
+
+{{RISQUES}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+                    { label: "Substitution? (Si oui, mettre adresse du risque à retirer)", type: "checkbox", hasDetails: true},
+
+                    {
+                        label: "Risque(s)",
+                        type: "risques",
+                        placeholder: "Adresse (ex. 5080-5025 Boul Lapinière)",
+                        showAddButton: true,
+                        addButtonText: "Ajouter un autre COPO",
+
+                        extraFields: [
+                            { label: "Date de la prise de possession du risque", type: "date" },
+                            { label: "Année de construction", type: "text" },
+                            { label: "Bâtiment résistant au feu", type: "checkbox" },
+                            { label: "Structure du bâtiment", type: "select", options: ["Choisir","Unifamiliale","Maison en rangée","Duplex, triplex, etc...", "Tour d'appartements"] },
+                            { label: "Nombre de logis", type: "text" },
+                            { label: "Nombre d'étages", type: "text" },
+                            { label: "Poste de pompier à moins de 8km", type: "checkbox" },
+                            { label: "Borne fontaine à moins de 300m", type: "checkbox" },
+                            { label: "Présence d'un commerce dans le bâtiment et/ou activité professionnel exercé à domicile et/ou entreposage outil professionnel", type: "checkbox", hasDetails: true},
+                            { label: "Présence d'animaux domestiques", type: "checkbox", hasDetails: true},
+                            { label: "Fumeur", type: "checkbox" },
+                            { label: "Si logement loué à des tiers, préciser si courte durée, bail annuel, etc.", type: "text" },
+                            { label: "Type de chauffage principal", type: "text" },
+                            { label: "Type de chauffage secondaire (confirmez que tout est homologué puis aux normes)", type: "text" },
+                            { label: "Année de la dernière rénovation du chauffage principal/secondaire", type: "text" },
+                            { label: "Type de panneaux électrique", type: "select", options: ["Disjoncteurs","Fusibles"] },
+                            { label: "Ampérage du panneau électrique", type: "text" },
+                            { label: "Type de filage électrique", type: "select", options: ["Cuivre","Aluminium","Fil de fer"] },
+                            { label: "Année de la dernière rénovation de l'électricité/panneau", type: "text" },
+                            { label: "Matériau principal de la plomberie", type: "select", options: ["Cuivre","Plomb","Fer","Galvanisé", "ABS", "PEX", "PB", "PVC", "Poly-B"] },
+                            { label: "Année de la dernière rénovation de la plomberie", type: "text" },
+                            { label: "Année du chauffe-eau", type: "text" },
+                            { label: "Fosse septique", type: "checkbox" },
+                            { label: "Clapet anti-retour", type: "select", options: ["Oui","Non","Ne sait pas"] },
+                            { label: "Pompe sumbmersible", type: "checkbox" },
+                            { label: "Type de toiture", type: "select", options: ["Bardeaux d'asphalte","Bardeaux de bois","Tôle","Ardoise","Elastomère"] },
+                            { label: "Année du dernier remplacement de la toiture", type: "text" },
+                            { label: "Type d'isolation", type: "text" },
+                            { label: "Type de fondation", type: "select", options: ["Béton coulé","Bloc de béton","Pierre des champs","Pilotis","Pieux"] },
+                            { label: "Année de rénovation la porte/fenetre la plus vieille", type: "text" },
+                            { label: "Présence de dépendances dont l'assuré est propriétaire sur les lieux assurés (garage, remise, cabanon, atelier, etc.)", type: "textarea"},
+                            { label: "Dommage d'eau subi par la résidence dans les 10 dernières années", type: "checkbox", hasDetails: true},
+                            { label: "Rénovations, correctifs, travaux à venir", type: "checkbox", hasDetails: true},
+                            { label: "Aire habitable de la propriété (sans le sous-sol)", type: "text" },
+                            { label: "Présence d'un sous-sol", type: "select", options: ["Aucun","Sous-sol","Vide sanitaire","Cave","Logement loué"] },
+                            { label: "Pourcentage de finition du sous-sol", type: "text" },
+                            { label: "Air de la section sous-sol", type: "text" },
+                            { label: "Nombre de salle de bain", type: "text" },
+                            { label: "Nombre de salle d'eau", type: "text" },
+                            { label: "Présence de système d'alarme (préciser si relié à la centrale ou non)", type: "checkbox", hasDetails: true},
+                            { label: "Élément à déclarer qui pourrait avoir un impact sur l'évaluation du dossier", type: "textarea"},
+                            { label: "Objet de valeur (vélos, bijoux, collection, tracteur, etc.)", type: "textarea"},
+                            { label: "Présence d'un créancier hypothécaire", type: "checkbox", hasDetails: true},
+                            { label: "Formulaire", type: "text"},
+                            { label: "Biens meubles", type: "text"},
+                            { label: "Dépendances", type: "checkbox"},
+                            { label: "Frais de subsistance supplémentaire", type: "checkbox"},
+                            { label: "Améliorations locatives", type: "checkbox", hasDetails : true},
+                            { label: "Responsabilité Civile", type: "select", options: ["2 000 000","1 000 000"] },
+                            { label: "Franchise", type: "select", options: ["Aucun", "250", "300", "500", "1000", "1500", "2000", "2500", "5000", "10000"] },
+                            { label: "Incendie explosion et fumée suite à un tremblement de terre", type: "checkbox"},
+                            { label: "Tremblement de terre", type: "checkbox", hasDetails : true},
+                            { label: "Vol d'identité", type: "checkbox"},
+                            { label: "Eau au-dessus du sol", type: "checkbox"},
+                            { label: "Refoulement d'égouts et eau du sol", type: "checkbox", hasDetails : true},
+                            { label: "Débordement de cours d'eau", type: "checkbox", hasDetails : true},
+                            { label: "Indemnisation sans obligation de remplacer les biens meubles", type: "checkbox"},
+                            { label: "Assistance juridique", type: "checkbox"},
+                            { label: "Valeur locative", type: "checkbox", hasDetails : true },
+                        ],
+                    },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Ajout - Copropriétaire loué": {
+                template: `{{Type de communication}} {{Nom du client}}
+Ajout de risque(s) en date du {{Date effective de la transaction}}
+Si substitution, adresse du risque à retirer : {{Substitution? (Si oui, mettre adresse du risque à retirer)}}
+
+Risque(s) ajouté(s) sur la police :
+
+{{RISQUES}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+                    { label: "Substitution? (Si oui, mettre adresse du risque à retirer)", type: "checkbox", hasDetails: true},
+
+                    {
+                        label: "Risque(s)",
+                        type: "risques",
+                        placeholder: "Adresse (ex. 5080-5025 Boul Lapinière)",
+                        showAddButton: true,
+                        addButtonText: "Ajouter un autre COPO",
+
+                        extraFields: [
+                            { label: "Date de la prise de possession du risque", type: "date" },
+                            { label: "Année de construction", type: "text" },
+                            { label: "Bâtiment résistant au feu", type: "checkbox" },
+                            { label: "Structure du bâtiment", type: "select", options: ["Choisir","Unifamiliale","Maison en rangée","Duplex, triplex, etc...", "Tour d'appartements"] },
+                            { label: "Nombre de logis", type: "text" },
+                            { label: "Nombre d'étages", type: "text" },
+                            { label: "Poste de pompier à moins de 8km", type: "checkbox" },
+                            { label: "Borne fontaine à moins de 300m", type: "checkbox" },
+                            { label: "Présence d'un commerce dans le bâtiment et/ou activité professionnel exercé à domicile et/ou entreposage outil professionnel", type: "checkbox", hasDetails: true},
+                            { label: "Préciser si courte durée, bail annuel, etc.", type: "text" },
+                            { label: "Type de chauffage principal", type: "text" },
+                            { label: "Type de chauffage secondaire (confirmez que tout est homologué puis aux normes)", type: "text" },
+                            { label: "Année de la dernière rénovation du chauffage principal/secondaire", type: "text" },
+                            { label: "Type de panneaux électrique", type: "select", options: ["Disjoncteurs","Fusibles"] },
+                            { label: "Ampérage du panneau électrique", type: "text" },
+                            { label: "Type de filage électrique", type: "select", options: ["Cuivre","Aluminium","Fil de fer"] },
+                            { label: "Année de la dernière rénovation de l'électricité/panneau", type: "text" },
+                            { label: "Matériau principal de la plomberie", type: "select", options: ["Cuivre","Plomb","Fer","Galvanisé", "ABS", "PEX", "PB", "PVC", "Poly-B"] },
+                            { label: "Année de la dernière rénovation de la plomberie", type: "text" },
+                            { label: "Année du chauffe-eau", type: "text" },
+                            { label: "Fosse septique", type: "checkbox" },
+                            { label: "Clapet anti-retour", type: "select", options: ["Oui","Non","Ne sait pas"] },
+                            { label: "Pompe sumbmersible", type: "checkbox" },
+                            { label: "Type de toiture", type: "select", options: ["Bardeaux d'asphalte","Bardeaux de bois","Tôle","Ardoise","Elastomère"] },
+                            { label: "Année du dernier remplacement de la toiture", type: "text" },
+                            { label: "Type d'isolation", type: "text" },
+                            { label: "Type de fondation", type: "select", options: ["Béton coulé","Bloc de béton","Pierre des champs","Pilotis","Pieux"] },
+                            { label: "Année de rénovation la porte/fenetre la plus vieille", type: "text" },
+                            { label: "Présence de dépendances dont l'assuré est propriétaire sur les lieux assurés (garage, remise, cabanon, atelier, etc.)", type: "textarea"},
+                            { label: "Dommage d'eau subi par la résidence dans les 10 dernières années", type: "checkbox", hasDetails: true},
+                            { label: "Rénovations, correctifs, travaux à venir", type: "checkbox", hasDetails: true},
+                            { label: "Aire habitable de la propriété (sans le sous-sol)", type: "text" },
+                            { label: "Présence d'un sous-sol", type: "select", options: ["Aucun","Sous-sol","Vide sanitaire","Cave","Logement loué"] },
+                            { label: "Pourcentage de finition du sous-sol", type: "text" },
+                            { label: "Air de la section sous-sol", type: "text" },
+                            { label: "Nombre de salle de bain", type: "text" },
+                            { label: "Nombre de salle d'eau", type: "text" },
+                            { label: "Présence de système d'alarme (préciser si relié à la centrale ou non)", type: "checkbox", hasDetails: true},
+                            { label: "Élément à déclarer qui pourrait avoir un impact sur l'évaluation du dossier", type: "textarea"},
+                            { label: "Objet de valeur (vélos, bijoux, collection, tracteur, etc.)", type: "textarea"},
+                            { label: "Présence d'un créancier hypothécaire", type: "checkbox", hasDetails: true},
+                            { label: "Formulaire", type: "text"},
+                            { label: "Biens meubles", type: "text"},
+                            { label: "Dépendances", type: "checkbox"},
+                            { label: "Frais de subsistance supplémentaire", type: "checkbox"},
+                            { label: "Améliorations locatives", type: "checkbox", hasDetails : true},
+                            { label: "Responsabilité Civile", type: "select", options: ["2 000 000","1 000 000"] },
+                            { label: "Franchise", type: "select", options: ["Aucun", "250", "300", "500", "1000", "1500", "2000", "2500", "5000", "10000"] },
+                            { label: "Incendie explosion et fumée suite à un tremblement de terre", type: "checkbox"},
+                            { label: "Tremblement de terre", type: "checkbox", hasDetails : true},
+                            { label: "Eau au-dessus du sol", type: "checkbox"},
+                            { label: "Refoulement d'égouts et eau du sol", type: "checkbox", hasDetails : true},
+                            { label: "Débordement de cours d'eau", type: "checkbox", hasDetails : true},
+                            { label: "Valeur locative", type: "checkbox", hasDetails : true },
+                        ],
+                    },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Ajout - Propriétaire loué": {
+                template: `{{Type de communication}} {{Nom du client}}
+Ajout de risque(s) en date du {{Date effective de la transaction}}
+Si substitution, adresse du risque à retirer : {{Substitution? (Si oui, mettre adresse du risque à retirer)}}
+
+Risque(s) ajouté(s) sur la police :
+
+{{RISQUES}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+                    { label: "Substitution? (Si oui, mettre adresse du risque à retirer)", type: "checkbox", hasDetails: true},
+
+                    {
+                        label: "Risque(s)",
+                        type: "risques",
+                        placeholder: "Adresse (ex. 5080-5025 Boul Lapinière)",
+                        showAddButton: true,
+                        addButtonText: "Ajouter un autre PROO",
+
+                        extraFields: [
+                            { label: "Date de la prise de possession du risque", type: "date" },
+                            { label: "Année de construction", type: "text" },
+                            { label: "Bâtiment résistant au feu", type: "checkbox" },
+                            { label: "Structure du bâtiment", type: "select", options: ["Choisir","Unifamiliale","Maison en rangée","Duplex, triplex, etc..."] },
+                            { label: "Nombre de logis", type: "text" },
+                            { label: "Nombre d'étages", type: "text" },
+                            { label: "Poste de pompier à moins de 8km", type: "checkbox" },
+                            { label: "Borne fontaine à moins de 300m", type: "checkbox" },
+                            { label: "Présence d'un commerce dans le bâtiment et/ou activité professionnel exercé à domicile et/ou entreposage outil professionnel", type: "checkbox", hasDetails: true},
+                            { label: "Préciser si courte durée, bail annuel, etc.", type: "text" },
+                            { label: "Type de chauffage principal", type: "text" },
+                            { label: "Type de chauffage secondaire (confirmez que tout est homologué puis aux normes)", type: "text" },
+                            { label: "Année de la dernière rénovation du chauffage principal/secondaire", type: "text" },
+                            { label: "Type de panneaux électrique", type: "select", options: ["Disjoncteurs","Fusibles"] },
+                            { label: "Ampérage du panneau électrique", type: "text" },
+                            { label: "Type de filage électrique", type: "select", options: ["Cuivre","Aluminium","Fil de fer"] },
+                            { label: "Année de la dernière rénovation de l'électricité/panneau", type: "text" },
+                            { label: "Matériau principal de la plomberie", type: "select", options: ["Cuivre","Plomb","Fer","Galvanisé", "ABS", "PEX", "PB", "PVC", "Poly-B"] },
+                            { label: "Année de la dernière rénovation de la plomberie", type: "text" },
+                            { label: "Année du chauffe-eau", type: "text" },
+                            { label: "Fosse septique", type: "checkbox" },
+                            { label: "Clapet anti-retour", type: "select", options: ["Oui","Non","Ne sait pas"] },
+                            { label: "Pompe sumbmersible", type: "checkbox" },
+                            { label: "Type de toiture", type: "select", options: ["Bardeaux d'asphalte","Bardeaux de bois","Tôle","Ardoise","Elastomère"] },
+                            { label: "Année du dernier remplacement de la toiture", type: "text" },
+                            { label: "Type d'isolation", type: "text" },
+                            { label: "Type de fondation", type: "select", options: ["Béton coulé","Bloc de béton","Pierre des champs","Pilotis","Pieux"] },
+                            { label: "Année de rénovation la porte/fenetre la plus vieille", type: "text" },
+                            { label: "Présence de dépendances dont l'assuré est propriétaire sur les lieux assurés (garage, remise, cabanon, atelier, etc.)", type: "textarea"},
+                            { label: "Dommage d'eau subi par la résidence dans les 10 dernières années", type: "checkbox", hasDetails: true},
+                            { label: "Rénovations, correctifs, travaux à venir", type: "checkbox", hasDetails: true},
+                            { label: "Aire habitable de la propriété (sans le sous-sol)", type: "text" },
+                            { label: "Présence d'un sous-sol", type: "select", options: ["Aucun","Sous-sol","Vide sanitaire","Cave","Logement loué"] },
+                            { label: "Pourcentage de finition du sous-sol", type: "text" },
+                            { label: "Air de la section sous-sol", type: "text" },
+                            { label: "Nombre de salle de bain", type: "text" },
+                            { label: "Nombre de salle d'eau", type: "text" },
+                            { label: "Présence de système d'alarme (préciser si relié à la centrale ou non)", type: "checkbox", hasDetails: true},
+                            { label: "Élément à déclarer qui pourrait avoir un impact sur l'évaluation du dossier", type: "textarea"},
+                            { label: "Objet de valeur (vélos, bijoux, collection, tracteur, etc.)", type: "textarea"},
+                            { label: "Présence d'un créancier hypothécaire", type: "checkbox", hasDetails: true},
+                            { label: "Formulaire", type: "text"},
+                            { label: "Bâtiment", type: "text"},
+                            { label: "Dépendances", type: "checkbox"},
+                            { label: "Responsabilité Civile", type: "select", options: ["2 000 000","1 000 000"] },
+                            { label: "Franchise", type: "select", options: ["Aucun", "250", "300", "500", "1000", "1500", "2000", "2500", "5000", "10000"] },
+                            { label: "Incendie explosion et fumée suite à un tremblement de terre", type: "checkbox"},
+                            { label: "Tremblement de terre", type: "checkbox", hasDetails : true},
+                            { label: "Spa/Piscine creusé", type: "checkbox"},
+                            { label: "Spa/Piscine hors-terre", type: "checkbox"},
+                            { label: "Eau au-dessus du sol", type: "checkbox"},
+                            { label: "Refoulement d'égouts et eau du sol", type: "checkbox", hasDetails : true},
+                            { label: "Débordement de cours d'eau", type: "checkbox", hasDetails : true},
+                            { label: "Entrée d'eau", type: "checkbox"},
+                            { label: "Valeur locative", type: "checkbox", hasDetails : true },
+                            { label: "Autres", type: "textarea"},
+                            
+                        ],
+                    },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Retrait d'assuré": {
+                template: `{{Type de communication}} {{Nom du client}}
+Retrait d'assuré en date du {{Date effective de la transaction}}
+
+Assurés(s) retiré(s) sur la police :
+
+{{RISQUES}}
+Méthode de confirmation reçu (de chaque assuré) : {{Méthode de confirmation reçu}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+
+                    {
+                        label: "Assuré(s)",
+                        type: "risques",
+                        showAddButton: true,
+                        placeholder: "Nom complet de l'assuré",
+                        addButtonText: "Assuré additionnel à retirer",
+
+                        extraFields: [
+                            { label: "Raison du retrait", type: "textarea" },
+                        ],
+
+                    },
+                    { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
+                    { label: "État", type: "select", options:["émise", "en suspend"] },
+                    { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
+                    { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
+
+                    { label: "Surprime/Crédit", type: "select", options:["Surprime", "Crédit", "Aucun changement"] },
+                    { label: "Différence", type: "text" },
+                    { label: "Honoraires", type: "text" },
+
+                    { label: "Information complémentaire", type: "textarea" },
+
+                    { label: "Confirmation au client", type: "select", options : ["Oui", "Non"] },
+
+                ]
+            },
+            "Retrait de risque (pas de substitution)": {
+                template: `{{Type de communication}} {{Nom du client}}
+Retrait du risque en date du {{Date effective de la transaction}}
+
+Risque(s) retiré(s) sur la police :
+
+{{RISQUES}}
+Méthode de confirmation reçu : {{Méthode de confirmation reçu}}
+Transaction {{État}} chez {{Assureur}} {{Méthode}}
+{{Surprime/Crédit}} : {{Différence}}$
+Honoraires : {{Honoraires}}$
+Information complémentaire : {{Information complémentaire}}
+Le client a été avisé de la différence de prime : {{Confirmation au client}}
+`,
+                fields: [
+                    { label: "Type de communication", type: "select", options: ["Choisir","Appel reçu de","Appel fait à","Courriel reçu de","Visite au bureau de"] },
+                    { label: "Nom du client", type: "text" },
+                    { label: "Date effective de la transaction", type: "date" },
+
+                    {
+                        label: "Risque(s)",
+                        type: "risques",
+                        placeholder: "Adresse (ex. 5080-5025 Boul Lapinière)",
+                        showAddButton: true,
+                        addButtonText: "Autre risque à retirer",
+
+                        extraFields: [
+                            { label: "Raison du retrait", type: "textarea" },
+                        ],
+
+                    },
+                    { label: "Méthode de confirmation reçu", type: "select", options:["Courriel", "Poste", "En attente", "Ne s'applique pas"] },
                     { label: "État", type: "select", options:["émise", "en suspend"] },
                     { label: "Assureur", type: "select", options:["Intact", "L'Unique", "Promutuel", "Aviva", "Leclerc", "Echelon", "Soplex", "Morin Elliott", "Pafco", "Autre"] },
                     { label: "Méthode", type: "select", options:["dans leur portail", "par courriel"] },
@@ -1910,21 +2534,17 @@ CRÉATION DU MENU
                         createMenu(subMenu, data[key]);
                     }
 
-                    // Repositionner en fixed par rapport à l'item
                     const itemRect = item.getBoundingClientRect();
                     subMenu.style.position = "fixed";
                     subMenu.style.right = "auto";
                     subMenu.style.bottom = "auto";
                     subMenu.style.display = "block";
 
-                    // Par défaut à gauche de l'item
                     let x = itemRect.left - subMenu.offsetWidth;
                     let y = itemRect.top;
 
-                    // Si ça dépasse à gauche, mettre à droite
                     if (x < 0) x = itemRect.right;
 
-                    // Si ça dépasse en bas, remonter
                     if (y + subMenu.offsetHeight > window.innerHeight) {
                         y = window.innerHeight - subMenu.offsetHeight - 10;
                     }
@@ -2032,9 +2652,6 @@ FENÊTRE NOTE
 
         win.querySelector(".closeBtn").onclick = function(){ win.remove(); };
 
-        // =====================
-        // MINIMIZE SYSTEM
-        // =====================
         let taskbar = document.getElementById("customTaskbar");
 
         if(!taskbar){
@@ -2097,9 +2714,6 @@ FENÊTRE NOTE
                 btn.remove();
             };
 
-            // =================
-            // CLICK RESTORE
-            // =================
             btn.onclick = function(){
                 win.style.display = "flex";
                 win.style.zIndex = zIndexCounter++;
@@ -2111,9 +2725,6 @@ FENÊTRE NOTE
             taskbar.appendChild(btn);
         };
 
-        // =====================
-        // DRAG SYSTEM
-        // =====================
         let offsetX = 0;
         let offsetY = 0;
         let isDragging = false;
@@ -2837,7 +3448,6 @@ FENÊTRE NOTE
 
                             let val = "";
 
-                            // 🔥 MULTISELECT (plusieurs checkbox)
                             const allCheckboxes = fContainer.querySelectorAll("input[type=checkbox]");
 
                             if (allCheckboxes.length > 1) {
@@ -2854,7 +3464,6 @@ FENÊTRE NOTE
 
                             }
 
-                            // 🔹 Checkbox simple
                             else if (allCheckboxes.length === 1) {
 
                                 const checkbox = allCheckboxes[0];
@@ -2869,7 +3478,6 @@ FENÊTRE NOTE
 
                             }
 
-                            // 🔹 Autres inputs
                             else {
                                 const input = fContainer.querySelector("input[type=text], input[type=date], textarea:not(.conditionalTextarea), select");
                                 if (input) {
@@ -2939,7 +3547,6 @@ FENÊTRE NOTE
     createMenu(menu,notesData);
     mainBtn.onclick = function(e) {
         e.stopPropagation();
-        // Réinitialiser la position en bas à droite
         menu.style.left = "auto";
         menu.style.top = "auto";
         menu.style.right = "20px";
