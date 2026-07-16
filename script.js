@@ -2068,7 +2068,7 @@ Document(s) à envoyer par l'assistante : {{Documents à envoyer par l'assistant
                 { label: "Mise en marché pour le renouvellement", type: "select", options : ["Oui", "Non"] },
                 { label: "Contact avec le client pour le renouvellement", type: "select", options : ["Oui", "Non"] },
                 { label: "Référence - appel enregistré 3CX ou courriel", type: "textarea" },
-                { label: "Documents à envoyer par l'assistante? Si oui, décrire les documents à envoyer et mettre l'activité à l'assistante", type: "textarea" },
+                { label: "Documents à envoyer par l'assistante? Si oui, décrire les documents à envoyer et mettre l'activité à l'assistante", type: "checkbox", hasDetails: true},
             ]
         },
         "Mise à jour": {
